@@ -67,9 +67,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\RelayCommand.cs" />
-    <Compile Include="Model\Objects\ColdFlow.cs" />
-    <Compile Include="Model\Objects\EnergyFlow.cs" />
-    <Compile Include="Model\Objects\HotFlow.cs" />
+    <Compile Include="Model\FlowObjects\ColdFlow.cs" />
+    <Compile Include="Model\FlowObjects\EnergyFlowBase.cs" />
+    <Compile Include="Model\FlowObjects\HotFlow.cs" />
+    <Compile Include="Model\FlowObjects\Study.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

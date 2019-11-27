@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TC_generator.Model.Objects;
 
 namespace TC_generator
 {
@@ -23,6 +24,51 @@ namespace TC_generator
         public MainWindow()
         {
             InitializeComponent();
+
+            ColdFlow flow1 = new ColdFlow(4, new Point(100, 100));
+
+            for (int i = 0; i < flow1.Lines.Count; i++)
+            {
+                Canvasss.Children.Add(flow1.Lines[i]);
+            }
+
+
+            ColdFlow flow2 = new ColdFlow(4, new Point(100, 150));
+
+            for (int i = 0; i < flow2.Lines.Count; i++)
+            {
+                Canvasss.Children.Add(flow2.Lines[i]);
+            }
+
+
+            ColdFlow flow3 = new ColdFlow(4, new Point(100, 200));
+
+            for (int i = 0; i < flow3.Lines.Count; i++)
+            {
+                Canvasss.Children.Add(flow3.Lines[i]);
+            }
+
+
+            ColdFlow flow4 = new ColdFlow(4, new Point(100, 250));
+
+            for (int i = 0; i < flow4.Lines.Count; i++)
+            {
+                Canvasss.Children.Add(flow4.Lines[i]);
+            }
+
+            HotFlow flow5 = new HotFlow(4, new Point(100, 300));
+
+            for (int i = 0; i < flow5.Lines.Count; i++)
+            {
+                Canvasss.Children.Add(flow5.Lines[i]);
+            }
+
+            HotFlow flow6 = new HotFlow(4, new Point(100, 350));
+
+            for (int i = 0; i < flow6.Lines.Count; i++)
+            {
+                Canvasss.Children.Add(flow6.Lines[i]);
+            }
         }
     }
 }

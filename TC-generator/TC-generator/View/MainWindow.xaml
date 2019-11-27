@@ -12,6 +12,6 @@
     </Window.DataContext>
 
     <Grid>
-        
+        <Canvas x:Name="Canvasss"/>
     </Grid>
 </Window>
