@@ -25,7 +25,7 @@ namespace TC_generator
         {
             InitializeComponent();
 
-            ColdFlow flow1 = new ColdFlow(4, new Point(100, 100));
+            ColdFlow flow1 = new ColdFlow(20, new Point(100, 100));
 
             for (int i = 0; i < flow1.Lines.Count; i++)
             {
@@ -33,7 +33,7 @@ namespace TC_generator
             }
 
 
-            ColdFlow flow2 = new ColdFlow(4, new Point(100, 150));
+            ColdFlow flow2 = new ColdFlow(22, new Point(100, 150));
 
             for (int i = 0; i < flow2.Lines.Count; i++)
             {
@@ -49,25 +49,32 @@ namespace TC_generator
             }
 
 
-            ColdFlow flow4 = new ColdFlow(4, new Point(100, 250));
+            ColdFlow flow4 = new ColdFlow(9, new Point(100, 250));
 
             for (int i = 0; i < flow4.Lines.Count; i++)
             {
                 Canvasss.Children.Add(flow4.Lines[i]);
             }
 
-            HotFlow flow5 = new HotFlow(4, new Point(100, 300));
+            HotFlow flow5 = new HotFlow(15, new Point(100, 300));
 
             for (int i = 0; i < flow5.Lines.Count; i++)
             {
                 Canvasss.Children.Add(flow5.Lines[i]);
             }
 
-            HotFlow flow6 = new HotFlow(4, new Point(100, 350));
+            HotFlow flow6 = new HotFlow(9, new Point(100, 350));
 
             for (int i = 0; i < flow6.Lines.Count; i++)
             {
                 Canvasss.Children.Add(flow6.Lines[i]);
+            }
+
+
+            PrintDialog dialog = new PrintDialog();
+            if (dialog.ShowDialog() == true)
+            {
+                dialog.PrintVisual(Canvasss, "Визитная карточка");
             }
         }
     }
