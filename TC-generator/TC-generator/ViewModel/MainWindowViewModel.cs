@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TC_generator.ViewModel
 {
-    class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
     }
 }
