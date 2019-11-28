@@ -67,10 +67,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="Model\BuilderObjects\Director.cs" />
+    <Compile Include="Model\BuilderObjects\IFlowBuilder.cs" />
     <Compile Include="Model\FlowObjects\ColdFlow.cs" />
     <Compile Include="Model\FlowObjects\EnergyFlowBase.cs" />
     <Compile Include="Model\FlowObjects\HotFlow.cs" />
     <Compile Include="Model\FlowObjects\Study.cs" />
+    <Compile Include="Model\InputObjects\IInput.cs" />
+    <Compile Include="Model\InputObjects\InputInfo.cs" />
+    <Compile Include="Model\InputObjects\JsonInput.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TC_generator.Model.InputObjects;
 using TC_generator.Model.Objects;
 
 namespace TC_generator
@@ -25,57 +26,40 @@ namespace TC_generator
         {
             InitializeComponent();
 
-            ColdFlow flow1 = new ColdFlow(20, new Point(100, 100));
+
+            InputInfo input = new InputInfo();
+
+            ColdFlow flow1 = new ColdFlow(input.StudyCount, new Point(600, 100),input.CF_Tn[0], input.CF_Tk[0]);
 
             for (int i = 0; i < flow1.Lines.Count; i++)
             {
-                Canvasss.Children.Add(flow1.Lines[i]);
+                Canvasss.Items.Add(flow1.Lines[i]);
             }
 
-
-            ColdFlow flow2 = new ColdFlow(22, new Point(100, 150));
-
-            for (int i = 0; i < flow2.Lines.Count; i++)
+            for (int i = 0; i < flow1.ArrowLines.Length; i++)
             {
-                Canvasss.Children.Add(flow2.Lines[i]);
+                Canvasss.Items.Add(flow1.ArrowLines[i]);
             }
 
+            Label Tn_L1 = new Label();
+            Tn_L1.Margin = new Thickness(flow1.TnPoint.X, flow1.TnPoint.Y, 0, 0);
+            Tn_L1.Content = flow1.Tn.ToString();
+            Canvasss.Items.Add(Tn_L1);
 
-            ColdFlow flow3 = new ColdFlow(4, new Point(100, 200));
-
-            for (int i = 0; i < flow3.Lines.Count; i++)
-            {
-                Canvasss.Children.Add(flow3.Lines[i]);
-            }
-
-
-            ColdFlow flow4 = new ColdFlow(9, new Point(100, 250));
-
-            for (int i = 0; i < flow4.Lines.Count; i++)
-            {
-                Canvasss.Children.Add(flow4.Lines[i]);
-            }
-
-            HotFlow flow5 = new HotFlow(15, new Point(100, 300));
-
-            for (int i = 0; i < flow5.Lines.Count; i++)
-            {
-                Canvasss.Children.Add(flow5.Lines[i]);
-            }
-
-            HotFlow flow6 = new HotFlow(9, new Point(100, 350));
-
-            for (int i = 0; i < flow6.Lines.Count; i++)
-            {
-                Canvasss.Children.Add(flow6.Lines[i]);
-            }
+            Label Tk_L1 = new Label();
+            Tk_L1.Margin = new Thickness(flow1.TkPoint.X, flow1.TkPoint.Y, 0, 0);
+            Tk_L1.Content = flow1.Tk.ToString();
+            Canvasss.Items.Add(Tk_L1);
 
 
-            PrintDialog dialog = new PrintDialog();
-            if (dialog.ShowDialog() == true)
-            {
-                dialog.PrintVisual(Canvasss, "Визитная карточка");
-            }
+
+
+
+            //PrintDialog dialog = new PrintDialog();
+            //if (dialog.ShowDialog() == true)
+            //{
+            //    dialog.PrintVisual(Canvasss, "Визитная карточка");
+            //}
         }
     }
 }

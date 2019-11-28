@@ -18,13 +18,19 @@ namespace TC_generator.Model.Objects
 
         public Point beginP { get; set; }
 
-        public EnergyFlowBase(int StudyCount, Point beginP)
+        public double Tn { get; set; }
+        public double Tk { get; set; }
+
+        public EnergyFlowBase(int StudyCount, Point beginP, double Tn, double Tk)
         {
             IdEnergyFlow++;
             Name = "FLOW №" + IdEnergyFlow.ToString();
 
             this.StudyCount = StudyCount;
             this.beginP = beginP;
+
+            this.Tn = Tn;
+            this.Tk = Tk;
         }
 
         public abstract Dictionary<int, Study> CreateStudyes(int StudyCount);

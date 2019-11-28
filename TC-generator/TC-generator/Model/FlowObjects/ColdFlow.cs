@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using TC_generator.Model.BuilderObjects;
 using TC_generator.Model.FlowObjects;
 
 namespace TC_generator.Model.Objects
@@ -32,7 +33,40 @@ namespace TC_generator.Model.Objects
             }
         }
 
-        public ColdFlow(int StudyCount, Point beginP) : base(StudyCount, beginP)
+        public Dictionary<int, Point> IdTextPoint
+        {
+            get
+            {
+                return CreateIdTextPoint();
+            }
+        }
+
+        public Point TnPoint
+        {
+            get
+            {
+                return new Point(beginP.X, beginP.Y - 10);
+            }
+        }
+
+        public Point TkPoint
+        {
+            get
+            {
+                return new Point(Studyes[StudyCount - 1].EndPoint.X, Studyes[StudyCount - 1].EndPoint.Y - 10);
+            }
+        }
+
+        public Line[] ArrowLines
+        {
+            get
+            {
+                return CreateArrow();
+            }
+        }
+
+
+        public ColdFlow(int StudyCount, Point beginP, double Tn, double Tk) : base(StudyCount, beginP, Tn, Tk)
         {
             IdColdFlow++;
         }
@@ -60,13 +94,13 @@ namespace TC_generator.Model.Objects
 
             for (int i = 0; i < StudyCount; i++)
             {
-                Line line = new Line();
-
-                line.X1 = Studyes[i].BeginPoint.X;
-                line.Y1 = Studyes[i].BeginPoint.Y;
-
-                line.X2 = Studyes[i].EndPoint.X;
-                line.Y2 = Studyes[i].EndPoint.Y;
+                Line line = new Line()
+                {
+                    X1 = Studyes[i].BeginPoint.X,
+                    Y1 = Studyes[i].BeginPoint.Y,
+                    X2 = Studyes[i].EndPoint.X,
+                    Y2 = Studyes[i].EndPoint.Y,
+                };
 
                 line.Stroke = FlowColor;
 
@@ -74,6 +108,49 @@ namespace TC_generator.Model.Objects
             }
 
             return Lines;
+        }
+
+        public Dictionary<int, Point> CreateIdTextPoint()
+        {
+            Dictionary<int, Point> IdTextPoint = new Dictionary<int, Point>();
+
+            for (int i = 0; i < StudyCount; i++)
+            {
+                Point p = new Point()
+                {
+                    X = (Studyes[i].BeginPoint.X + Studyes[i].EndPoint.X) / 2,
+                    Y = ((Studyes[i].BeginPoint.Y + Studyes[i].EndPoint.Y) / 2) - 10,
+                };
+
+                IdTextPoint.Add(i, p);
+            }
+
+            return IdTextPoint;
+        }
+
+        public Line[] CreateArrow()
+        {
+
+            Line line1 = new Line
+            {
+                X1 = Studyes[StudyCount - 1].EndPoint.X,
+                Y1 = Studyes[StudyCount - 1].EndPoint.Y,
+                X2 = Studyes[StudyCount - 1].EndPoint.X + 10,
+                Y2 = Studyes[StudyCount - 1].EndPoint.Y - 10
+            };
+
+            Line line2 = new Line
+            {
+                X1 = Studyes[StudyCount - 1].EndPoint.X,
+                Y1 = Studyes[StudyCount - 1].EndPoint.Y,
+                X2 = Studyes[StudyCount - 1].EndPoint.X + 10,
+                Y2 = Studyes[StudyCount - 1].EndPoint.Y + 10
+            };
+
+            line1.Stroke = FlowColor;
+            line2.Stroke = FlowColor;
+
+            return new Line[2] { line1, line2 };
         }
 
     }

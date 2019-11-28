@@ -32,7 +32,7 @@ namespace TC_generator.Model.Objects
             }
         }
 
-        public HotFlow(int StudyCount, Point beginP) : base(StudyCount, beginP)
+        public HotFlow(int StudyCount, Point beginP, double Tn, double Tk) : base(StudyCount, beginP, Tn, Tk)
         {
             IdHotFlow++;
         }
@@ -75,5 +75,10 @@ namespace TC_generator.Model.Objects
 
             return Lines;
         }
+
+        
+
+
+
     }
 }
