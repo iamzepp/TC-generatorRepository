@@ -62,7 +62,7 @@ namespace TC_generator.Model.BuilderObjects
                 Label Tn_L1 = new Label
                 {
                     Margin = new Thickness(flow.TnPoint.X, flow.TnPoint.Y, 0, 0),
-                    Content = flow.Tn.ToString()
+                    Content = flow.Tn.ToString() + " C"
                 };
 
                 Canvasss.Items.Add(Tn_L1);
@@ -70,7 +70,7 @@ namespace TC_generator.Model.BuilderObjects
                 Label Tk_L1 = new Label
                 {
                     Margin = new Thickness(flow.TkPoint.X, flow.TkPoint.Y, 0, 0),
-                    Content = flow.Tk.ToString()
+                    Content = flow.Tk.ToString() + " C"
                 };
                 Canvasss.Items.Add(Tk_L1);
 
