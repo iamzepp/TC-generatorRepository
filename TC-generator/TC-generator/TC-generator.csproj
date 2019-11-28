@@ -76,6 +76,7 @@
     <Compile Include="Model\InputObjects\IInput.cs" />
     <Compile Include="Model\InputObjects\InputInfo.cs" />
     <Compile Include="Model\InputObjects\JsonInput.cs" />
+    <Compile Include="Model\InputObjects\XmlInput.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
