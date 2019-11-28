@@ -23,9 +23,9 @@ namespace TC_generator.Model.InputObjects
         public InputInfo()
         {
 
-            StudyCount = 5;
-            ColdFlowCount = 4;
-            HotFlowCount = 4;
+            StudyCount = 14;
+            ColdFlowCount = 14;
+            HotFlowCount = 10;
 
             CF_Tn = new List<int>();
             CF_Tk = new List<int>();

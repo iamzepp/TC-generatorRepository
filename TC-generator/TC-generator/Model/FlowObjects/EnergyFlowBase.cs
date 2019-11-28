@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Shapes;
 using TC_generator.Model.FlowObjects;
 
 namespace TC_generator.Model.Objects
@@ -20,6 +21,18 @@ namespace TC_generator.Model.Objects
 
         public double Tn { get; set; }
         public double Tk { get; set; }
+
+
+        public abstract Dictionary<int, Line> Lines { get; }
+
+        public abstract Dictionary<int, Point> IdTextPoint { get; }
+
+        public abstract Point TnPoint { get; }
+
+        public abstract Point TkPoint { get; }
+
+        public abstract Line[] ArrowLines { get; }
+
 
         public EnergyFlowBase(int StudyCount, Point beginP, double Tn, double Tk)
         {

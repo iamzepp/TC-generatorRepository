@@ -11,16 +11,15 @@
         <local:MainWindowViewModel></local:MainWindowViewModel>
     </Window.DataContext>
 
-
-    <ItemsControl x:Name="Canvasss">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Canvas>
-                </Canvas>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
-    
-    
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ItemsControl x:Name="Canvasss">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas x:Name="Mycvs">
+                    </Canvas>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </ScrollViewer>
 
 </Window>

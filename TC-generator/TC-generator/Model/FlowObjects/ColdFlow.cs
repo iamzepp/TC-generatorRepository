@@ -25,7 +25,7 @@ namespace TC_generator.Model.Objects
             }
         }
 
-        public Dictionary<int, Line> Lines
+        public override Dictionary<int, Line> Lines
         {
             get
             {
@@ -33,7 +33,7 @@ namespace TC_generator.Model.Objects
             }
         }
 
-        public Dictionary<int, Point> IdTextPoint
+        public override Dictionary<int, Point> IdTextPoint
         {
             get
             {
@@ -41,23 +41,23 @@ namespace TC_generator.Model.Objects
             }
         }
 
-        public Point TnPoint
+        public override Point TnPoint
         {
             get
             {
-                return new Point(beginP.X, beginP.Y - 10);
+                return new Point(beginP.X, beginP.Y - 40);
             }
         }
 
-        public Point TkPoint
+        public override Point TkPoint
         {
             get
             {
-                return new Point(Studyes[StudyCount - 1].EndPoint.X, Studyes[StudyCount - 1].EndPoint.Y - 10);
+                return new Point(Studyes[StudyCount - 1].EndPoint.X, Studyes[StudyCount - 1].EndPoint.Y - 40);
             }
         }
 
-        public Line[] ArrowLines
+        public override Line[] ArrowLines
         {
             get
             {
@@ -75,14 +75,16 @@ namespace TC_generator.Model.Objects
         {
             Dictionary<int, Study> studyes = new Dictionary<int, Study>();
 
-            Point p = new Point();
-            p.X = beginP.X;
-            p.Y = beginP.Y;
+            Point p = new Point
+            {
+                X = beginP.X,
+                Y = beginP.Y
+            };
 
             for (int i = 0; i < StudyCount; i++)
             {
                 studyes.Add(i, new Study(p));
-                p.X = p.X + 100;
+                p.X += 100;
             }
 
             return studyes;
@@ -119,7 +121,7 @@ namespace TC_generator.Model.Objects
                 Point p = new Point()
                 {
                     X = (Studyes[i].BeginPoint.X + Studyes[i].EndPoint.X) / 2,
-                    Y = ((Studyes[i].BeginPoint.Y + Studyes[i].EndPoint.Y) / 2) - 10,
+                    Y = ((Studyes[i].BeginPoint.Y + Studyes[i].EndPoint.Y) / 2) - 30,
                 };
 
                 IdTextPoint.Add(i, p);
@@ -133,18 +135,18 @@ namespace TC_generator.Model.Objects
 
             Line line1 = new Line
             {
-                X1 = Studyes[StudyCount - 1].EndPoint.X,
-                Y1 = Studyes[StudyCount - 1].EndPoint.Y,
-                X2 = Studyes[StudyCount - 1].EndPoint.X + 10,
-                Y2 = Studyes[StudyCount - 1].EndPoint.Y - 10
+                X1 = Studyes[0].BeginPoint.X,
+                Y1 = Studyes[0].BeginPoint.Y,
+                X2 = Studyes[0].BeginPoint.X + 10,
+                Y2 = Studyes[0].BeginPoint.Y - 10
             };
 
             Line line2 = new Line
             {
-                X1 = Studyes[StudyCount - 1].EndPoint.X,
-                Y1 = Studyes[StudyCount - 1].EndPoint.Y,
-                X2 = Studyes[StudyCount - 1].EndPoint.X + 10,
-                Y2 = Studyes[StudyCount - 1].EndPoint.Y + 10
+                X1 = Studyes[0].BeginPoint.X,
+                Y1 = Studyes[0].BeginPoint.Y,
+                X2 = Studyes[0].BeginPoint.X + 10,
+                Y2 = Studyes[0].BeginPoint.Y + 10
             };
 
             line1.Stroke = FlowColor;
