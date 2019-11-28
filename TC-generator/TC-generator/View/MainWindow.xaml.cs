@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +30,10 @@ namespace TC_generator
             InitializeComponent();
             Canvasss.Height = 1500;
 
-            InputInfo input = new InputInfo();
+            //string json = File.ReadAllText("document.json");
+            //InputInfo input = JsonConvert.DeserializeObject<InputInfo>(json);
+
+           InputInfo input = new InputInfo();
 
             Director director = new Director(input, this.Canvasss);
             director.StartDraw();
