@@ -16,11 +16,21 @@ namespace TC_generator.Model.BuilderObjects
         readonly InputInfo input;
         readonly ItemsControl Canvasss;
 
+        ParallelOptions po = new ParallelOptions() { MaxDegreeOfParallelism = 8 };
+
+
         public Director(InputInfo input, ItemsControl Canvasss)
         {
             this.input = input;
             this.Canvasss = Canvasss;
         }
+
+
+        public async void StartDrawAsync()
+        {
+            await Task.Run(() => StartDraw());
+        }
+
 
         public void StartDraw()
         {
@@ -41,7 +51,16 @@ namespace TC_generator.Model.BuilderObjects
                 Y += 50;
             }
 
+            Canvasss.Height = Y + 100;
+            Canvasss.Width = 100 * input.StudyCount + 2 * X;
+
             Draw(flows);
+            //DrawParallel(flows);
+        }
+
+        public void DrawParallel(List<EnergyFlowBase> flows)
+        {
+            Parallel.ForEach( flows, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, DrawP);
         }
 
         public void Draw(List<EnergyFlowBase> flows)
@@ -90,6 +109,46 @@ namespace TC_generator.Model.BuilderObjects
 
         }
 
+        public void DrawP(EnergyFlowBase flow)
+        {
 
+            for (int i = 0; i < flow.Lines.Count; i++)
+            {
+                Canvasss.Items.Add(flow.Lines[i]);
+            }
+
+            for (int i = 0; i < flow.ArrowLines.Length; i++)
+            {
+                Canvasss.Items.Add(flow.ArrowLines[i]);
+            }
+
+            Label Tn_L1 = new Label
+            {
+                Margin = new Thickness(flow.TnPoint.X, flow.TnPoint.Y, 0, 0),
+                Content = flow.Tn.ToString() + " C"
+            };
+
+            Canvasss.Items.Add(Tn_L1);
+
+            Label Tk_L1 = new Label
+            {
+                Margin = new Thickness(flow.TkPoint.X, flow.TkPoint.Y, 0, 0),
+                Content = flow.Tk.ToString() + " C"
+            };
+            Canvasss.Items.Add(Tk_L1);
+
+            for (int i = 0; i < flow.IdTextPoint.Count; i++)
+            {
+                Label p = new Label
+                {
+                    Foreground = Brushes.DarkRed,
+                    Margin = new Thickness(flow.IdTextPoint[i].X, flow.IdTextPoint[i].Y, 0, 0),
+                    Content = i.ToString()
+                };
+
+                Canvasss.Items.Add(p);
+            }
+
+        }
     }
 }

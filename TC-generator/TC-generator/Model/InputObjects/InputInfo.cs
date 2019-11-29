@@ -22,10 +22,17 @@ namespace TC_generator.Model.InputObjects
 
         public InputInfo()
         {
+           
+            CreateDefault();
+        }
 
+  
+
+        public void CreateDefault()
+        {
             StudyCount = 14;
-            ColdFlowCount = 14;
-            HotFlowCount = 10;
+            ColdFlowCount = 100;
+            HotFlowCount = 100;
 
             CF_Tn = new List<int>();
             CF_Tk = new List<int>();
@@ -46,7 +53,7 @@ namespace TC_generator.Model.InputObjects
                 HF_Tk.Add(random.Next(300, 350));
                 HF_Tn.Add(random.Next(150, 250));
             }
-
         }
+
     }
 }

@@ -28,12 +28,11 @@ namespace TC_generator
         public MainWindow()
         {
             InitializeComponent();
-            Canvasss.Height = 1500;
 
             //string json = File.ReadAllText("document.json");
             //InputInfo input = JsonConvert.DeserializeObject<InputInfo>(json);
 
-           InputInfo input = new InputInfo();
+            InputInfo input = new InputInfo();
 
             Director director = new Director(input, this.Canvasss);
             director.StartDraw();

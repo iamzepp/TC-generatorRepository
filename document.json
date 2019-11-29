@@ -1,0 +1,25 @@
+{
+  "StudyCount": 4,
+  "ColdFlowCount": 4,
+  "HotFlowCount": 2,
+  "CF_Tn": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "CF_Tk": [
+    13,
+    24,
+    390,
+    43
+  ],
+  "HF_Tn": [
+    1,
+    2
+  ],
+  "HF_Tk": [
+    13,
+    24
+  ]
+}
