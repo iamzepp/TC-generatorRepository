@@ -18,12 +18,15 @@ namespace TC_generator.Model.InputObjects
         public List<int> HF_Tn { get; set; }
         public List<int> HF_Tk { get; set; }
 
-        
+        public int[,] ConnectionsArray { get; set; }
+
+        public int[,] TypeArray { get; set; }
+
+
 
         public InputInfo()
-        {
-           
-            CreateDefault();
+        {     
+          CreateDefault();
         }
 
   
@@ -36,6 +39,8 @@ namespace TC_generator.Model.InputObjects
 
             CF_Tn = new List<int>();
             CF_Tk = new List<int>();
+
+            ConnectionsArray = new int[2,2];
 
             HF_Tn = new List<int>();
             HF_Tk = new List<int>();
@@ -53,6 +58,9 @@ namespace TC_generator.Model.InputObjects
                 HF_Tk.Add(random.Next(300, 350));
                 HF_Tn.Add(random.Next(150, 250));
             }
+
+
+
         }
 
     }
