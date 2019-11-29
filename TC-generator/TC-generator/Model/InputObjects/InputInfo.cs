@@ -18,49 +18,14 @@ namespace TC_generator.Model.InputObjects
         public List<int> HF_Tn { get; set; }
         public List<int> HF_Tk { get; set; }
 
-        public int[,] ConnectionsArray { get; set; }
-
-        public int[,] TypeArray { get; set; }
-
-
 
         public InputInfo()
-        {     
-          CreateDefault();
-        }
-
-  
-
-        public void CreateDefault()
         {
-            StudyCount = 14;
-            ColdFlowCount = 100;
-            HotFlowCount = 100;
-
             CF_Tn = new List<int>();
             CF_Tk = new List<int>();
 
-            ConnectionsArray = new int[2,2];
-
             HF_Tn = new List<int>();
             HF_Tk = new List<int>();
-
-            Random random = new Random();
-
-            for (int i = 0; i < ColdFlowCount; i++)
-            {
-                CF_Tk.Add(random.Next(200, 250));
-                CF_Tn.Add(random.Next(100, 150));
-            }
-
-            for (int i = 0; i < HotFlowCount; i++)
-            {
-                HF_Tk.Add(random.Next(300, 350));
-                HF_Tn.Add(random.Next(150, 250));
-            }
-
-
-
         }
 
     }

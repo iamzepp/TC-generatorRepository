@@ -78,9 +78,11 @@
     <Compile Include="Model\FlowObjects\HotFlow.cs" />
     <Compile Include="Model\FlowObjects\Study.cs" />
     <Compile Include="Model\ConnectionObjects\UtilityConnection.cs" />
+    <Compile Include="Model\InputObjects\DefaultInput.cs" />
     <Compile Include="Model\InputObjects\IInput.cs" />
     <Compile Include="Model\InputObjects\InputInfo.cs" />
     <Compile Include="Model\InputObjects\JsonInput.cs" />
+    <Compile Include="Model\InputObjects\ManagerInput.cs" />
     <Compile Include="Model\InputObjects\XmlInput.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

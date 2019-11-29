@@ -154,7 +154,5 @@ namespace TC_generator.Model.Objects
             return new Line[2] { line1, line2 };
         }
 
-
-
     }
 }

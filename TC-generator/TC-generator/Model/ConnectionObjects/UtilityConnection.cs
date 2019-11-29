@@ -40,7 +40,7 @@ namespace TC_generator.Model.ConnectionObjects
             this.Type = Type;
         }
 
-        public Line[] CreateUtilityConnection()
+        private Line[] CreateUtilityConnection()
         {
             Line[] lines = null;
 
@@ -51,9 +51,9 @@ namespace TC_generator.Model.ConnectionObjects
                     Line GeneralLineC = new Line
                     {
                         X1 = InstallationPoint.X,
-                        Y1 = InstallationPoint.Y - 30,
+                        Y1 = InstallationPoint.Y - 20,
                         X2 = InstallationPoint.X,
-                        Y2 = InstallationPoint.Y + 30,
+                        Y2 = InstallationPoint.Y + 20,
 
                         Stroke = Brushes.DarkGreen
                     };
@@ -86,9 +86,9 @@ namespace TC_generator.Model.ConnectionObjects
                     Line GeneralLineH = new Line
                     {
                         X1 = InstallationPoint.X,
-                        Y1 = InstallationPoint.Y - 30,
+                        Y1 = InstallationPoint.Y - 20,
                         X2 = InstallationPoint.X,
-                        Y2 = InstallationPoint.Y + 30,
+                        Y2 = InstallationPoint.Y + 20,
 
                         Stroke = Brushes.DarkGreen
                     };

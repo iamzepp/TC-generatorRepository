@@ -29,20 +29,20 @@ namespace TC_generator
         {
             InitializeComponent();
 
-            string json = File.ReadAllText("document.json");
-            InputInfo input = JsonConvert.DeserializeObject<InputInfo>(json);
+            Start();
+        }
 
-            //InputInfo input = new InputInfo();
-
-            Director director = new Director(input, this.Canvasss);
+        public void Start()
+        {
+            Director director = new Director((new ManagerInput(new DefaultInput())).GetInput(), this.Canvasss);
             director.StartDraw();
 
 
-            PrintDialog dialog = new PrintDialog();
-            if (dialog.ShowDialog() == true)
-            {
-                dialog.PrintVisual(Canvasss, "Визитная карточка");
-            }
+            //PrintDialog dialog = new PrintDialog();
+            //if (dialog.ShowDialog() == true)
+            //{
+            //    dialog.PrintVisual(Canvasss, "Визитная карточка");
+            //}
         }
     }
 }

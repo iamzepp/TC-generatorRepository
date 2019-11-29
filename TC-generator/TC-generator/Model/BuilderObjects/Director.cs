@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using TC_generator.Model.ConnectionObjects;
 using TC_generator.Model.InputObjects;
 using TC_generator.Model.Objects;
 
@@ -16,21 +17,16 @@ namespace TC_generator.Model.BuilderObjects
         readonly InputInfo input;
         readonly ItemsControl Canvasss;
 
-        ParallelOptions po = new ParallelOptions() { MaxDegreeOfParallelism = 8 };
-
-
         public Director(InputInfo input, ItemsControl Canvasss)
         {
             this.input = input;
             this.Canvasss = Canvasss;
         }
 
-
         public async void StartDrawAsync()
         {
             await Task.Run(() => StartDraw());
         }
-
 
         public void StartDraw()
         {
@@ -107,6 +103,13 @@ namespace TC_generator.Model.BuilderObjects
 
             }
 
+            //Canvasss.Items.Add((new UtilityConnection(new Point(200, 100), FlowType.Cold)).UtilityLines[0]);
+            //Canvasss.Items.Add((new UtilityConnection(new Point(200, 100), FlowType.Cold)).UtilityLines[1]);
+            //Canvasss.Items.Add((new UtilityConnection(new Point(200, 100), FlowType.Cold)).UtilityLines[2]);
+
+            //Canvasss.Items.Add((new UtilityConnection(new Point(400, 100), FlowType.Hot)).UtilityLines[0]);
+            //Canvasss.Items.Add((new UtilityConnection(new Point(400, 100), FlowType.Hot)).UtilityLines[1]);
+            //Canvasss.Items.Add((new UtilityConnection(new Point(400, 100), FlowType.Hot)).UtilityLines[2]);
         }
 
         public void DrawP(EnergyFlowBase flow)
