@@ -22,7 +22,8 @@ namespace TC_generator.Model.BuilderObjects
             this.input = input;
             this.Canvasss = Canvasss;
 
-            List <String> s = this.input.GetBranches();
+            var s = this.input.GetBranches();
+         
         }
 
         public async void StartDrawAsync()

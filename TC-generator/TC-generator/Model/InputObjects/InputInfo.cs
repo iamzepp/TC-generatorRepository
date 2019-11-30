@@ -45,9 +45,57 @@ namespace TC_generator.Model.InputObjects
             ConnectArray = new int[StudyCount * HotFlowCount, StudyCount * ColdFlowCount];
         }
 
-        public List<string> GetBranches()
+        //public List<string> GetBranches()
+        //{
+        //    List<string> s = new List<string>();
+
+        //    for (int i = 0; i < (StudyCount * HotFlowCount); i++)
+        //    {
+        //        for (int j = 0; j < (StudyCount * ColdFlowCount); j++)
+        //        {
+        //            if (ConnectArray[i, j] == 1)
+        //            {
+        //                int u_1 = i / StudyCount;
+        //                int u_2 = j / StudyCount;
+
+        //                int HS;
+        //                int HN;
+        //                if (u_1 == 0)
+        //                {
+        //                    HN = 0;
+        //                    HS = i;
+        //                }
+        //                else
+        //                {
+        //                    HN = u_1;
+        //                    HS = i - u_1 * StudyCount;
+        //                }
+
+        //                int CS;
+        //                int CN;
+        //                if (u_2 == 0)
+        //                {
+        //                    CN = 0;
+        //                    CS = j;
+        //                }
+        //                else
+        //                {
+        //                    CN = u_2;
+        //                    CS = j - u_2 * StudyCount;
+        //                }
+
+        //                s.Add("H" + HN.ToString() + "S" + HS.ToString() + " cоединяется " + "C" + CN.ToString() + "S" + CS.ToString() + " --- тип " + Type[i, j].ToString());
+        //                break;
+        //            }
+        //        }
+        //    }
+
+        //    return s;
+        //}
+
+        public List<(int HotNumber, int HotStudy, int ColdNumber, int ColdStudy, ConnectType ConnectVariant)> GetBranches()
         {
-            List<string> s = new List<string>();
+            var s = new List<(int, int, int, int, ConnectType)>();
 
             for (int i = 0; i < (StudyCount * HotFlowCount); i++)
             {
@@ -55,15 +103,11 @@ namespace TC_generator.Model.InputObjects
                 {
                     if (ConnectArray[i, j] == 1)
                     {
-                        int HN = 0;
-                        int HS = 0;
-
-                        int CN = 0;
-                        int CS = 0;
-
                         int u_1 = i / StudyCount;
                         int u_2 = j / StudyCount;
 
+                        int HS;
+                        int HN;
                         if (u_1 == 0)
                         {
                             HN = 0;
@@ -75,6 +119,8 @@ namespace TC_generator.Model.InputObjects
                             HS = i - u_1 * StudyCount;
                         }
 
+                        int CS;
+                        int CN;
                         if (u_2 == 0)
                         {
                             CN = 0;
@@ -86,7 +132,7 @@ namespace TC_generator.Model.InputObjects
                             CS = j - u_2 * StudyCount;
                         }
 
-                        s.Add("H" + HN.ToString() + "S" + HS.ToString() + " cоединяется " + "C" + CN.ToString() + "S" + CS.ToString() + " --- тип " + Type[i, j].ToString());
+                        s.Add((HN, HS, CN, CS, Type[i, j]));
                         break;
                     }
                 }
