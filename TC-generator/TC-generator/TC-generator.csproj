@@ -71,7 +71,6 @@
     </Compile>
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="Model\BuilderObjects\Director.cs" />
-    <Compile Include="Model\BuilderObjects\IFlowBuilder.cs" />
     <Compile Include="Model\ConnectionObjects\BranchConnection.cs" />
     <Compile Include="Model\FlowObjects\ColdFlow.cs" />
     <Compile Include="Model\FlowObjects\EnergyFlowBase.cs" />
