@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace TC_generator.Model.InputObjects
 {
     public class DefaultInput : IInput
@@ -18,9 +19,9 @@ namespace TC_generator.Model.InputObjects
                                                   ConnectType.Y,
                                                   ConnectType.Z};
 
-            input.StudyCount = 2;
-            input.ColdFlowCount = 4;
-            input.HotFlowCount = 4;
+            input.StudyCount = 30;
+            input.ColdFlowCount = 1000;
+            input.HotFlowCount = 1000;
 
             for (int i = 0; i < input.ColdFlowCount; i++)
             {
@@ -36,14 +37,35 @@ namespace TC_generator.Model.InputObjects
 
             input.StartInitial();
 
-            input.ConnectArray = new int[,] { { 0,1,0,0,0,0,0,0 },
-                                              { 0,0,1,0,0,0,0,0 },
-                                              { 1,0,0,0,0,0,0,0 },
-                                              { 0,0,0,1,0,0,0,0 }, 
-                                              { 0,0,0,0,1,0,0,0 },
-                                              { 0,0,0,0,0,1,0,0 },
-                                              { 0,0,0,0,0,0,0,1 },
-                                              { 0,0,0,0,0,0,1,0 }};
+            //input.ConnectArray = new int[,] { { 0,1,0,0,0,0,0,0 },
+            //                                  { 0,0,1,0,0,0,0,0 },
+            //                                  { 1,0,0,0,0,0,0,0 },
+            //                                  { 0,0,0,1,0,0,0,0 },
+            //                                  { 0,0,0,0,1,0,0,0 },
+            //                                  { 0,0,0,0,0,1,0,0 },
+            //                                  { 0,0,0,0,0,0,0,1 },
+            //                                  { 0,0,0,0,0,0,1,0 }};
+
+            List<int> tab = new List<int>();
+            for (int i = 0; i < (input.StudyCount * input.HotFlowCount); i++)
+            {
+                link:
+
+                int j = random.Next(0, input.StudyCount * input.ColdFlowCount);
+
+                if (!tab.Contains(j))
+                {
+                    input.ConnectArray[i, j] = 1;
+                    tab.Add(j);
+                }
+                else
+                {
+                    goto link;
+                }
+
+               
+            }
+            
 
             for (int i = 0; i < (input.StudyCount * input.HotFlowCount); i++)
             {
@@ -55,5 +77,13 @@ namespace TC_generator.Model.InputObjects
 
             return input;
         }
+
+        public void Helper(int i)
+        {
+
+          
+        }
+
     }
+  
 }
