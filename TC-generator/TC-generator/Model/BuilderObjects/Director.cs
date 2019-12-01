@@ -139,9 +139,13 @@ namespace TC_generator.Model.BuilderObjects
 
                     case ConnectType.Z:
                         Point point7 = new Point();
-                        Point point8 = new Point();
 
-                        Canvasss.Items.Add((new BranchConnection(point7, point8)).BranchConnectionLine);
+                        UtilityConnection utility = new UtilityConnection(point7, FlowType.Cold);
+                     
+                        for(int i =0; i< utility.UtilityLines.Length; i++)
+                        {
+                            Canvasss.Items.Add(utility.UtilityLines[i]);
+                        } 
                         break;
                 }         
             }

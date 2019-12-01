@@ -15,7 +15,7 @@
         <ItemsControl x:Name="Canvasss">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas x:Name="Mycvs">
+                    <Canvas>
                     </Canvas>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>

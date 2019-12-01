@@ -46,24 +46,25 @@ namespace TC_generator.Model.InputObjects
             //                                  { 0,0,0,0,0,0,0,1 },
             //                                  { 0,0,0,0,0,0,1,0 }};
 
-            List<int> tab = new List<int>();
+            
             for (int i = 0; i < (input.StudyCount * input.HotFlowCount); i++)
             {
-                link:
+                List<int> tab = new List<int>();
 
-                int j = random.Next(0, input.StudyCount * input.ColdFlowCount);
-
-                if (!tab.Contains(j))
+                while (true)
                 {
-                    input.ConnectArray[i, j] = 1;
-                    tab.Add(j);
-                }
-                else
-                {
-                    goto link;
-                }
+                    int j = random.Next(0, input.StudyCount * input.ColdFlowCount);
 
-               
+                    if (!tab.Contains(j))
+                    {
+                        input.ConnectArray[i, j] = 1;
+                        tab.Add(j);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }    
             }
             
 
@@ -76,12 +77,6 @@ namespace TC_generator.Model.InputObjects
             }
 
             return input;
-        }
-
-        public void Helper(int i)
-        {
-
-          
         }
 
     }
