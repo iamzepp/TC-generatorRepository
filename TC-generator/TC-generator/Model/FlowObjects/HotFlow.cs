@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using TC_generator.Model.ConnectionObjects;
 using TC_generator.Model.FlowObjects;
 
 namespace TC_generator.Model.Objects
 {
     public class HotFlow : EnergyFlowBase
     {
-        public int IdHotFlow { get; } = 0;
+        public static int IdHotFlow = 0;
 
         public static SolidColorBrush FlowColor { get; set; } = Brushes.Red;
 
@@ -64,9 +65,14 @@ namespace TC_generator.Model.Objects
             }
         }
 
+        public override string Name { get; }
+
+        public override FlowType TYPE { get => FlowType.Hot; }
+
         public HotFlow(int StudyCount, Point beginP, double Tn, double Tk) : base(StudyCount, beginP, Tn, Tk)
         {
             IdHotFlow++;
+            Name = "H" + IdHotFlow.ToString();
         }
 
         public override Dictionary<int, Study> CreateStudyes(int StudyCount)
@@ -81,7 +87,7 @@ namespace TC_generator.Model.Objects
 
             for (int i = 0; i < StudyCount; i++)
             {
-                studyes.Add(i, new Study(p));
+                studyes.Add(i, new Study(p, FlowType.Hot));
                 p.X += 100;
             }
 

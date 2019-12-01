@@ -31,25 +31,26 @@ namespace TC_generator.Model.BuilderObjects
 
         public void StartDraw()
         {
-            int X = 100;
+            int XforHF = 100;
+            int XforCF = 100 + 100 * input.StudyCount;
             int Y = 100;
 
             List<EnergyFlowBase> flows = new List<EnergyFlowBase>();
 
             for (int i = 0; i < input.HotFlowCount; i++)
             {
-                flows.Add(new HotFlow(input.StudyCount, new Point(X, Y), input.HF_Tn[i], input.HF_Tk[i]));
+                flows.Add(new HotFlow(input.StudyCount, new Point(XforHF, Y), input.HF_Tn[i], input.HF_Tk[i]));
                 Y += 50;
             }
 
             for (int i = 0; i < input.ColdFlowCount; i++)
             {
-                flows.Add(new ColdFlow(input.StudyCount, new Point(X, Y), input.CF_Tn[i], input.CF_Tk[i]));
+                flows.Add(new ColdFlow(input.StudyCount, new Point(XforCF, Y), input.CF_Tn[i], input.CF_Tk[i]));
                 Y += 50;
             }
 
             Canvasss.Height = Y + 100;
-            Canvasss.Width = 100 * input.StudyCount + 2 * X;
+            Canvasss.Width = 100 * input.StudyCount + 2 * XforCF;
 
             Draw(flows);
             //DrawParallel(flows);
@@ -96,7 +97,7 @@ namespace TC_generator.Model.BuilderObjects
                     {
                         Foreground = Brushes.DarkRed,
                         Margin = new Thickness(flow.IdTextPoint[i].X, flow.IdTextPoint[i].Y, 0, 0),
-                        Content = i.ToString()
+                        Content = (i + 1).ToString()
                     };
 
                     Canvasss.Items.Add(p);
@@ -104,48 +105,64 @@ namespace TC_generator.Model.BuilderObjects
 
             }
 
-            DrawConnect(flows);
+           DrawConnect(flows);
 
         }
 
         private void DrawConnect(List<EnergyFlowBase> flows)
         {
-            var Branches = input.GetBranches();
-
-            foreach(var branch in Branches)
+            foreach(var branch in input.GetBranches())
             {
                 switch (branch.ConnectVariant)
                 {
                     case ConnectType.V:
-                        Point point1 = new Point();
-                        Point point2 = new Point();
+
+                        var HF =  from flow in flows
+                                  where flow.Name == "H" + branch.HotNumber.ToString()
+                                  select flow;
+
+                        var CF = from flow in flows
+                                 where flow.Name == "C" + branch.ColdNumber.ToString()
+                                 select flow;
+
+                        Point point1 = new Point()
+                        {
+                            X = (HF.First().Lines[branch.HotNumber].X1 + HF.First().Lines[branch.HotNumber].X2) / 2,
+                            Y = HF.First().Lines[branch.HotNumber].Y1
+                        };
+
+                        Point point2 = new Point()
+                        {
+                            X = (CF.First().Lines[branch.ColdNumber].X1 + CF.First().Lines[branch.ColdNumber].X2) / 2,
+                            Y = CF.First().Lines[branch.ColdNumber].Y1
+                        };
 
                         Canvasss.Items.Add((new BranchConnection(point1, point2)).BranchConnectionLine);
                         break;
 
                     case ConnectType.W:
-                        Point point3 = new Point();
-                        Point point4 = new Point();
+                        //Point point3 = new Point();
+                        //Point point4 = new Point();
 
-                        Canvasss.Items.Add((new BranchConnection(point3, point4)).BranchConnectionLine);
+                        //Canvasss.Items.Add((new BranchConnection(point3, point4)).BranchConnectionLine);
                         break;
 
                     case ConnectType.Y:
-                        Point point5 = new Point();
-                        Point point6 = new Point();
+                        //Point point5 = new Point();
+                        //Point point6 = new Point();
 
-                        Canvasss.Items.Add((new BranchConnection(point5, point6)).BranchConnectionLine);
+                        //Canvasss.Items.Add((new BranchConnection(point5, point6)).BranchConnectionLine);
                         break;
 
                     case ConnectType.Z:
-                        Point point7 = new Point();
+                        //Point point7 = new Point();
 
-                        UtilityConnection utility = new UtilityConnection(point7, FlowType.Cold);
+                        //UtilityConnection utility = new UtilityConnection(point7, FlowType.Cold);
                      
-                        for(int i =0; i< utility.UtilityLines.Length; i++)
-                        {
-                            Canvasss.Items.Add(utility.UtilityLines[i]);
-                        } 
+                        //for(int i =0; i< utility.UtilityLines.Length; i++)
+                        //{
+                        //    Canvasss.Items.Add(utility.UtilityLines[i]);
+                        //} 
                         break;
                 }         
             }

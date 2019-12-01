@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shapes;
+using TC_generator.Model.ConnectionObjects;
 using TC_generator.Model.FlowObjects;
 
 namespace TC_generator.Model.Objects
@@ -13,15 +14,17 @@ namespace TC_generator.Model.Objects
     {
         public int IdEnergyFlow { get; } = 0;
 
-        public string Name { get; }
+        public abstract string Name { get; }
 
         public int StudyCount { get; set; }
 
         public Point beginP { get; set; }
 
         public double Tn { get; set; }
+
         public double Tk { get; set; }
 
+        public abstract FlowType TYPE { get; }
 
         public abstract Dictionary<int, Line> Lines { get; }
 
@@ -37,7 +40,6 @@ namespace TC_generator.Model.Objects
         public EnergyFlowBase(int StudyCount, Point beginP, double Tn, double Tk)
         {
             IdEnergyFlow++;
-            Name = "FLOW №" + IdEnergyFlow.ToString();
 
             this.StudyCount = StudyCount;
             this.beginP = beginP;

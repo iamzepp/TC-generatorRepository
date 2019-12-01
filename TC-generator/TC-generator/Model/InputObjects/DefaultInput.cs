@@ -19,9 +19,9 @@ namespace TC_generator.Model.InputObjects
                                                   ConnectType.Y,
                                                   ConnectType.Z};
 
-            input.StudyCount = 30;
-            input.ColdFlowCount = 1000;
-            input.HotFlowCount = 1000;
+            input.StudyCount = 13;
+            input.ColdFlowCount = 10;
+            input.HotFlowCount = 10;
 
             for (int i = 0; i < input.ColdFlowCount; i++)
             {
