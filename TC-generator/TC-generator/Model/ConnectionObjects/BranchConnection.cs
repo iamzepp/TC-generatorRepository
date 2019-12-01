@@ -15,36 +15,49 @@ namespace TC_generator.Model.ConnectionObjects
         public int IdBranchConnection { get; } = 0;
         public string Name { get; }
 
-        public Point InstallationPoint { get; set; }
+        public Point HFPoint { get; set; }
+        public Point CFPoint { get; set; }
 
-        public ArrayList BranchConnectionLines
-        {
-            get
-            {
-                return CreateBranchConnectionLines();
+        public double Delta 
+        { 
+            get 
+            { 
+                return Math.Abs(HFPoint.Y - CFPoint.Y); 
             }
         }
 
-        public BranchConnection()
+        public Line BranchConnectionLine
+        {
+            get
+            {
+                return CreateBranchConnectionLine();
+            }
+        }
+
+        public BranchConnection(Point HFPoint, Point CFPoint)
         {
             IdBranchConnection++;
             Name = "Branch Connection №" + IdBranchConnection.ToString();
 
-            this.InstallationPoint = InstallationPoint;
+            this.HFPoint = HFPoint;
+            this.CFPoint = CFPoint;
         }
 
-        private ArrayList CreateBranchConnectionLines()
+        private Line CreateBranchConnectionLine()
         {
-            ArrayList list = new ArrayList();
 
-            Line line1 = new Line()
+            Line line = new Line()
             {
+                X1 = HFPoint.X,
+                Y1 = HFPoint.Y,
+                X2 = HFPoint.X,
+                Y2 = HFPoint.Y + Delta,
 
                 Stroke = Brushes.Black
             };
 
 
-            return list;
+            return line;
 
         }
 

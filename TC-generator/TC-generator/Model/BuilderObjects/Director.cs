@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,7 @@ namespace TC_generator.Model.BuilderObjects
         public Director(InputInfo input, ItemsControl Canvasss)
         {
             this.input = input;
-            this.Canvasss = Canvasss;
-
-            var s = this.input.GetBranches();
-         
+            this.Canvasss = Canvasss;   
         }
 
         public async void StartDrawAsync()
@@ -59,7 +57,7 @@ namespace TC_generator.Model.BuilderObjects
 
         public void DrawParallel(List<EnergyFlowBase> flows)
         {
-            Parallel.ForEach( flows, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, DrawP);
+            Parallel.ForEach( flows, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }, DrawP);
         }
 
         public void Draw(List<EnergyFlowBase> flows)
@@ -106,13 +104,47 @@ namespace TC_generator.Model.BuilderObjects
 
             }
 
-            //Canvasss.Items.Add((new UtilityConnection(new Point(200, 100), FlowType.Cold)).UtilityLines[0]);
-            //Canvasss.Items.Add((new UtilityConnection(new Point(200, 100), FlowType.Cold)).UtilityLines[1]);
-            //Canvasss.Items.Add((new UtilityConnection(new Point(200, 100), FlowType.Cold)).UtilityLines[2]);
+            DrawConnect(flows);
 
-            //Canvasss.Items.Add((new UtilityConnection(new Point(400, 100), FlowType.Hot)).UtilityLines[0]);
-            //Canvasss.Items.Add((new UtilityConnection(new Point(400, 100), FlowType.Hot)).UtilityLines[1]);
-            //Canvasss.Items.Add((new UtilityConnection(new Point(400, 100), FlowType.Hot)).UtilityLines[2]);
+        }
+
+        private void DrawConnect(List<EnergyFlowBase> flows)
+        {
+            var Branches = input.GetBranches();
+
+            foreach(var branch in Branches)
+            {
+                switch (branch.ConnectVariant)
+                {
+                    case ConnectType.V:
+                        Point point1 = new Point();
+                        Point point2 = new Point();
+
+                        Canvasss.Items.Add((new BranchConnection(point1, point2)).BranchConnectionLine);
+                        break;
+
+                    case ConnectType.W:
+                        Point point3 = new Point();
+                        Point point4 = new Point();
+
+                        Canvasss.Items.Add((new BranchConnection(point3, point4)).BranchConnectionLine);
+                        break;
+
+                    case ConnectType.Y:
+                        Point point5 = new Point();
+                        Point point6 = new Point();
+
+                        Canvasss.Items.Add((new BranchConnection(point5, point6)).BranchConnectionLine);
+                        break;
+
+                    case ConnectType.Z:
+                        Point point7 = new Point();
+                        Point point8 = new Point();
+
+                        Canvasss.Items.Add((new BranchConnection(point7, point8)).BranchConnectionLine);
+                        break;
+                }         
+            }
         }
 
         public void DrawP(EnergyFlowBase flow)
