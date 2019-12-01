@@ -64,26 +64,26 @@ namespace TC_generator.Model.InputObjects
                         int HN;
                         if (u_1 == 0)
                         {
-                            HN = 1;
-                            HS = i + 1;
+                            HN = 0;
+                            HS = i;
                         }
                         else
                         {
-                            HN = u_1 + 1;
-                            HS = i - u_1 * StudyCount + 2;
+                            HN = u_1;
+                            HS = i - u_1 * StudyCount;
                         }
 
                         int CS;
                         int CN;
                         if (u_2 == 0)
                         {
-                            CN = 1;
-                            CS = j + 1;
+                            CN = 0;
+                            CS = j;
                         }
                         else
                         {
-                            CN = u_2 + 1;
-                            CS = j - u_2 * StudyCount + 2;
+                            CN = u_2;
+                            CS = j - u_2 * StudyCount;
                         }
 
                         s.Add((HN, HS, CN, CS, Type[i, j]));

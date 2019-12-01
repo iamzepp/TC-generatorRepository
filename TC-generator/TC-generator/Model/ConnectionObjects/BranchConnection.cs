@@ -48,12 +48,17 @@ namespace TC_generator.Model.ConnectionObjects
 
             Line line = new Line()
             {
+                //X1 = HFPoint.X,
+                //Y1 = HFPoint.Y,
+                //X2 = HFPoint.X,
+                //Y2 = HFPoint.Y + Delta,
+
                 X1 = HFPoint.X,
                 Y1 = HFPoint.Y,
-                X2 = HFPoint.X,
-                Y2 = HFPoint.Y + Delta,
+                X2 = CFPoint.X,
+                Y2 = CFPoint.Y,
 
-                Stroke = Brushes.Black
+                Stroke = Brushes.Gold
             };
 
 
