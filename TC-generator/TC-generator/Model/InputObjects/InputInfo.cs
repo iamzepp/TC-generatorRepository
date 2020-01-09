@@ -8,10 +8,10 @@ namespace TC_generator.Model.InputObjects
 {
     public enum ConnectType 
     { 
-        V,
-        W,
-        Y,
-        Z
+        V1,
+        V2,
+        V3,
+        V4
     }
 
     public class InputInfo
@@ -27,7 +27,17 @@ namespace TC_generator.Model.InputObjects
         public List<int> HF_Tk { get; set; }
 
         public ConnectType[,] Type { get; set; }
+        public int[,] IntTypeConnect { get; set; }
         public int[,] ConnectArray { get; set; }
+
+        public double[,] Q_RecuperatorArray { get; set; }
+        public double[,] Q_CoolerArray { get; set; }
+        public double[,] Q_HeaterArray { get; set; }
+
+        public double[,] F_RecuperatorArray { get; set; }
+        public double[,] F_CoolerArray { get; set; }
+        public double[,] F_HeaterArray { get; set; }
+
 
 
         public InputInfo()
@@ -41,15 +51,27 @@ namespace TC_generator.Model.InputObjects
 
         public void StartInitial()
         {
-            Type = new ConnectType[StudyCount * HotFlowCount, StudyCount * ColdFlowCount];
-            ConnectArray = new int[StudyCount * HotFlowCount, StudyCount * ColdFlowCount];
+            int x = StudyCount * HotFlowCount;
+            int y = StudyCount * ColdFlowCount;
+
+            Type = new ConnectType[x, y];
+            IntTypeConnect = new int[x, y];
+            ConnectArray = new int[x, y];
+
+            Q_RecuperatorArray = new double[x, y];
+            Q_CoolerArray = new double[x, y];
+            Q_HeaterArray = new double[x, y];
+
+            F_RecuperatorArray = new double[x, y];
+            F_CoolerArray = new double[x, y];
+            F_HeaterArray = new double[x, y];
         }
 
        
 
-        public List<(int HotNumber, int HotStudy, int ColdNumber, int ColdStudy, ConnectType ConnectVariant)> GetBranches()
+        public List<(int HotNumber, int HotStudy, int ColdNumber, int ColdStudy, ConnectType ConnectVariant, int i , int j)> GetBranches()
         {
-            var s = new List<(int, int, int, int, ConnectType)>();
+            var s = new List<(int, int, int, int, ConnectType, int i, int j)>();
 
             for (int i = 0; i < (StudyCount * HotFlowCount); i++)
             {
@@ -86,7 +108,9 @@ namespace TC_generator.Model.InputObjects
                             CS = j - u_2 * StudyCount;
                         }
 
-                        s.Add((HN, HS, CN, CS, Type[i, j]));
+
+
+                        s.Add((HN, HS, CN, CS, Type[i, j], i, j));
                         break;
                     }
                 }

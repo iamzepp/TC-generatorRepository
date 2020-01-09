@@ -121,54 +121,166 @@ namespace TC_generator.Model.BuilderObjects
                           where flow.Name == "C" + (branch.ColdNumber + 1).ToString()
                           select flow).ToList();
 
-                //switch (branch.ConnectVariant)
-                //{
-                //    case ConnectType.V:
+                int[] n = new int[] { 10, 15, 20, 25, 30 };
 
-                        Point point1 = new Point();
-                        point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
-                        point1.Y = HF.Single().Lines[branch.HotStudy].Y1;
+                switch (branch.ConnectVariant)
+                {
+                    case ConnectType.V1:
 
-                        Point point2 = new Point();
-                        point2.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2);
-                        point2.Y = CF.Single().Lines[branch.ColdStudy].Y1;
+                        if(CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
+                        {
+                            Point point = new Point();
+                            point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 10;
+                            point.Y = HF.Single().Lines[branch.HotStudy].Y1;
 
-                        Canvasss.Items.Add((new BranchConnection(point1, point2)).BranchConnectionLine);
-                      //  break;
+                            UtilityConnection utility = new UtilityConnection(point, FlowType.Hot);
 
-                //    case ConnectType.W:
+                            for (int i = 0; i < utility.UtilityLines.Length; i++)
+                            {
+                                Canvasss.Items.Add(utility.UtilityLines[i]);
+                            }
+                            
+                        }
 
-                //        Point point3 = new Point();
-                //        point3.X = (HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2;
-                //        point3.Y = HF.Single().Lines[branch.HotStudy].Y1;
+                        if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
+                        {
+                            Point point = new Point();
+                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 10;
+                            point.Y = CF.Single().Lines[branch.ColdStudy].Y1;
 
-                //        UtilityConnection utility = new UtilityConnection(point3, FlowType.Hot);
+                            UtilityConnection utility = new UtilityConnection(point, FlowType.Cold);
 
-                //        for (int i = 0; i < utility.UtilityLines.Length; i++)
-                //        {
-                //            Canvasss.Items.Add(utility.UtilityLines[i]);
-                //        }
-                //        break;
+                            for (int i = 0; i < utility.UtilityLines.Length; i++)
+                            {
+                                Canvasss.Items.Add(utility.UtilityLines[i]);
+                            }
 
-                //    case ConnectType.Y:
-                //        //Point point5 = new Point();
-                //        //Point point6 = new Point();
+                        }
 
-                //        //Canvasss.Items.Add((new BranchConnection(point5, point6)).BranchConnectionLine);
-                //        break;
+                        break;
 
-                //    case ConnectType.Z:
-                //        //Point point7 = new Point();
+                    case ConnectType.V2:
 
-                //        //UtilityConnection utility = new UtilityConnection(point7, FlowType.Cold);
 
-                //        //for(int i =0; i< utility.UtilityLines.Length; i++)
-                //        //{
-                //        //    Canvasss.Items.Add(utility.UtilityLines[i]);
-                //        //} 
-                //        break;
-                //}
+                        if (CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
+                        {
+                            Point point1 = new Point();
+                            point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
+                            point1.Y = HF.Single().Lines[branch.HotStudy].Y1;
+
+                            Point point2 = new Point();
+                            point2.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2);
+                            point2.Y = CF.Single().Lines[branch.ColdStudy].Y1;
+
+                            Canvasss.Items.Add((new BranchConnection(point1, point2)).BranchConnectionLine);
+                        }
+
+                        if (CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
+                        {
+                            Point point = new Point();
+                            point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 10;
+                            point.Y = HF.Single().Lines[branch.HotStudy].Y1;
+
+                            UtilityConnection utility = new UtilityConnection(point, FlowType.Hot);
+
+                            for (int i = 0; i < utility.UtilityLines.Length; i++)
+                            {
+                                Canvasss.Items.Add(utility.UtilityLines[i]);
+                            }
+
+                        }
+
+                        if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
+                        {
+                            Point point = new Point();
+                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 10;
+                            point.Y = CF.Single().Lines[branch.ColdStudy].Y1;
+
+                            UtilityConnection utility = new UtilityConnection(point, FlowType.Cold);
+
+                            for (int i = 0; i < utility.UtilityLines.Length; i++)
+                            {
+                                Canvasss.Items.Add(utility.UtilityLines[i]);
+                            }
+
+                        }
+
+                        break;
+
+                    case ConnectType.V3:
+
+                        if (CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
+                        {
+                            Point point1 = new Point();
+                            point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
+                            point1.Y = HF.Single().Lines[branch.HotStudy].Y1;
+
+                            Point point2 = new Point();
+                            point2.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2);
+                            point2.Y = CF.Single().Lines[branch.ColdStudy].Y1;
+
+                            Canvasss.Items.Add((new BranchConnection(point1, point2)).BranchConnectionLine);
+                        }
+
+                        if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
+                        {
+                            Point point = new Point();
+                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 10;
+                            point.Y = CF.Single().Lines[branch.ColdStudy].Y1;
+
+                            UtilityConnection utility = new UtilityConnection(point, FlowType.Cold);
+
+                            for (int i = 0; i < utility.UtilityLines.Length; i++)
+                            {
+                                Canvasss.Items.Add(utility.UtilityLines[i]);
+                            }
+
+                        }
+
+                        break;
+
+                    case ConnectType.V4:
+
+                        if (CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
+                        {
+                            Point point1 = new Point();
+                            point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
+                            point1.Y = HF.Single().Lines[branch.HotStudy].Y1;
+
+                            Point point2 = new Point();
+                            point2.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2);
+                            point2.Y = CF.Single().Lines[branch.ColdStudy].Y1;
+
+                            Canvasss.Items.Add((new BranchConnection(point1, point2)).BranchConnectionLine);
+                        }
+
+                        if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
+                        {
+                            Point point = new Point();
+                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 10;
+                            point.Y = CF.Single().Lines[branch.ColdStudy].Y1;
+
+                            UtilityConnection utility = new UtilityConnection(point, FlowType.Cold);
+
+                            for (int i = 0; i < utility.UtilityLines.Length; i++)
+                            {
+                                Canvasss.Items.Add(utility.UtilityLines[i]);
+                            }
+
+                        }
+
+
+                        break;
+                }
             }
+        }
+
+        public bool CheckQandF( double F, double Q)
+        {
+            if (Q > 0.1 && F > 0.1)
+                return true;
+            else
+                return false;
         }
 
         public void DrawP(EnergyFlowBase flow)

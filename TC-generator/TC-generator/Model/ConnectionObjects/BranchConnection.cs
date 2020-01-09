@@ -45,6 +45,7 @@ namespace TC_generator.Model.ConnectionObjects
 
         private Line CreateBranchConnectionLine()
         {
+    
 
             Line line = new Line()
             {

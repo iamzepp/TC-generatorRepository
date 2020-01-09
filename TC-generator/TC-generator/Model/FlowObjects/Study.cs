@@ -26,6 +26,8 @@ namespace TC_generator.Model.FlowObjects
         {
             this.BeginPoint = BeginPoint;
             this.type = type;
+
+          
         }
 
         private Point CalculateEndPoint()

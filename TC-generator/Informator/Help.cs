@@ -6,17 +6,11 @@ using System.Threading.Tasks;
 
 namespace Informator
 {
-    public class Program
+   public static class Help
     {
-        public static void Main(string[] args)
-        {
-            Console.Read();
-        }
-
         public static void Output(int[,] M)
         {
             Console.WriteLine(M[1, 1].ToString());
-            Console.Read();
         }
     }
 }
