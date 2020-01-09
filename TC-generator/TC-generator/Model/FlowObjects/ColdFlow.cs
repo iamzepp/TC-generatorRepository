@@ -89,7 +89,7 @@ namespace TC_generator.Model.Objects
             for (int i = 0; i < StudyCount; i++)
             {
                 studyes.Add(i, new Study(p, FlowType.Cold));
-                p.X -= 100;
+                p.X -= 300;
             }
 
             return studyes;

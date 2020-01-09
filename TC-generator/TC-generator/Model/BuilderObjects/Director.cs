@@ -31,8 +31,8 @@ namespace TC_generator.Model.BuilderObjects
 
         public void StartDraw()
         {
-            int XforHF = 100;
-            int XforCF = 100 + 100 * input.StudyCount;
+            int XforHF = 300;
+            int XforCF = 300 + 300 * input.StudyCount;
             int Y = 100;
 
             List<EnergyFlowBase> flows = new List<EnergyFlowBase>();
@@ -40,17 +40,17 @@ namespace TC_generator.Model.BuilderObjects
             for (int i = 0; i < input.HotFlowCount; i++)
             {
                 flows.Add(new HotFlow(input.StudyCount, new Point(XforHF, Y), input.HF_Tn[i], input.HF_Tk[i]));
-                Y += 50;
+                Y += 100;
             }
 
             for (int i = 0; i < input.ColdFlowCount; i++)
             {
                 flows.Add(new ColdFlow(input.StudyCount, new Point(XforCF, Y), input.CF_Tn[i], input.CF_Tk[i]));
-                Y += 50;
+                Y += 100;
             }
 
             Canvasss.Height = Y + 100;
-            Canvasss.Width = 100 * input.StudyCount + 2 * XforCF;
+            Canvasss.Width = 300 * input.StudyCount + 2 * XforCF;
 
             Draw(flows);
             //DrawParallel(flows);
@@ -96,7 +96,7 @@ namespace TC_generator.Model.BuilderObjects
                     Label p = new Label
                     {
                         Foreground = Brushes.DarkRed,
-                        Margin = new Thickness(flow.IdTextPoint[i].X, flow.IdTextPoint[i].Y, 0, 0),
+                        Margin = new Thickness(flow.IdTextPoint[i].X, flow.IdTextPoint[i].Y-10, 0, 0),
                         Content = (i + 1).ToString()
                     };
 
@@ -121,8 +121,6 @@ namespace TC_generator.Model.BuilderObjects
                           where flow.Name == "C" + (branch.ColdNumber + 1).ToString()
                           select flow).ToList();
 
-                int[] n = new int[] { 10, 15, 20, 25, 30 };
-
                 switch (branch.ConnectVariant)
                 {
                     case ConnectType.V1:
@@ -130,7 +128,7 @@ namespace TC_generator.Model.BuilderObjects
                         if(CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
-                            point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 10;
+                            point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 30;
                             point.Y = HF.Single().Lines[branch.HotStudy].Y1;
 
                             UtilityConnection utility = new UtilityConnection(point, FlowType.Hot);
@@ -139,13 +137,21 @@ namespace TC_generator.Model.BuilderObjects
                             {
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
-                            
+
+                            Label Q = new Label
+                            {
+                                Margin = new Thickness(utility.UtilityLines[1].X1-18, utility.UtilityLines[1].Y1, 0, 0),
+                                Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
+                            };
+
+                           
+                            Canvasss.Items.Add(Q);
                         }
 
                         if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
-                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 10;
+                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 30;
                             point.Y = CF.Single().Lines[branch.ColdStudy].Y1;
 
                             UtilityConnection utility = new UtilityConnection(point, FlowType.Cold);
@@ -154,6 +160,15 @@ namespace TC_generator.Model.BuilderObjects
                             {
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
+
+                            Label Q = new Label
+                            {
+                                Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1-25, 0, 0),
+                                Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
+                            };
+
+
+                            Canvasss.Items.Add(Q);
 
                         }
 
@@ -178,7 +193,7 @@ namespace TC_generator.Model.BuilderObjects
                         if (CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
-                            point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 10;
+                            point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 30;
                             point.Y = HF.Single().Lines[branch.HotStudy].Y1;
 
                             UtilityConnection utility = new UtilityConnection(point, FlowType.Hot);
@@ -188,12 +203,21 @@ namespace TC_generator.Model.BuilderObjects
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
+                            Label Q = new Label
+                            {
+                                Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1, 0, 0),
+                                Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
+                            };
+
+
+                            Canvasss.Items.Add(Q);
+
                         }
 
                         if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
-                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 10;
+                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 30;
                             point.Y = CF.Single().Lines[branch.ColdStudy].Y1;
 
                             UtilityConnection utility = new UtilityConnection(point, FlowType.Cold);
@@ -202,6 +226,15 @@ namespace TC_generator.Model.BuilderObjects
                             {
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
+
+                            Label Q = new Label
+                            {
+                                Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1 - 25, 0, 0),
+                                Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
+                            };
+
+
+                            Canvasss.Items.Add(Q);
 
                         }
 
@@ -225,7 +258,7 @@ namespace TC_generator.Model.BuilderObjects
                         if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
-                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 10;
+                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 30;
                             point.Y = CF.Single().Lines[branch.ColdStudy].Y1;
 
                             UtilityConnection utility = new UtilityConnection(point, FlowType.Cold);
@@ -234,6 +267,15 @@ namespace TC_generator.Model.BuilderObjects
                             {
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
+
+                            Label Q = new Label
+                            {
+                                Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1 - 25, 0, 0),
+                                Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
+                            };
+
+
+                            Canvasss.Items.Add(Q);
 
                         }
 
@@ -252,20 +294,44 @@ namespace TC_generator.Model.BuilderObjects
                             point2.Y = CF.Single().Lines[branch.ColdStudy].Y1;
 
                             Canvasss.Items.Add((new BranchConnection(point1, point2)).BranchConnectionLine);
+
+                            //Label Q = new Label
+                            //{
+                            //    Margin = new Thickness(point1.X-18, point1.Y-20, 0, 0),
+                            //    Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
+                            //};
+
+                            //Label F = new Label
+                            //{
+                            //    Margin = new Thickness(point2.X - 18, point2.Y + 5, 0, 0),
+                            //    Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " м2"
+                            //};
+
+                            //Canvasss.Items.Add(Q);
+                            //Canvasss.Items.Add(F);
                         }
 
-                        if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
+                        if (CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
-                            point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 10;
-                            point.Y = CF.Single().Lines[branch.ColdStudy].Y1;
+                            point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 30;
+                            point.Y = HF.Single().Lines[branch.HotStudy].Y1;
 
-                            UtilityConnection utility = new UtilityConnection(point, FlowType.Cold);
+                            UtilityConnection utility = new UtilityConnection(point, FlowType.Hot);
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
+
+                            Label Q = new Label
+                            {
+                                Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1, 0, 0),
+                                Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
+                            };
+
+
+                            Canvasss.Items.Add(Q);
 
                         }
 
@@ -315,7 +381,7 @@ namespace TC_generator.Model.BuilderObjects
             {
                 Label p = new Label
                 {
-                    Foreground = Brushes.DarkRed,
+                    Foreground = Brushes.Firebrick,
                     Margin = new Thickness(flow.IdTextPoint[i].X, flow.IdTextPoint[i].Y, 0, 0),
                     Content = i.ToString()
                 };

@@ -19,7 +19,7 @@ namespace TC_generator.Model.FlowObjects
             }
         }
 
-        public static double Lenght { get; set; } = 100;
+        public static double Lenght { get; set; } = 300;
         public FlowType type { get; }
 
         public Study(Point BeginPoint, FlowType type)

@@ -55,7 +55,7 @@ namespace TC_generator.Model.ConnectionObjects
                         X2 = InstallationPoint.X,
                         Y2 = InstallationPoint.Y + 20,
 
-                        Stroke = Brushes.DarkGreen
+                        Stroke = Brushes.Red
                     };
 
                     Line ArrowLine_1_C = new Line
@@ -65,7 +65,7 @@ namespace TC_generator.Model.ConnectionObjects
                         X2 = GeneralLineC.X1 - 5,
                         Y2 = GeneralLineC.Y1 + 5,
 
-                        Stroke = Brushes.DarkGreen
+                        Stroke = Brushes.Red
                     };
 
                     Line ArrowLine_2_C = new Line
@@ -75,7 +75,7 @@ namespace TC_generator.Model.ConnectionObjects
                         X2 = GeneralLineC.X1 + 5,
                         Y2 = GeneralLineC.Y1 + 5,
 
-                        Stroke = Brushes.DarkGreen
+                        Stroke = Brushes.Red
                     };
 
                     lines = new Line[3] { GeneralLineC, ArrowLine_1_C, ArrowLine_2_C };
@@ -90,7 +90,7 @@ namespace TC_generator.Model.ConnectionObjects
                         X2 = InstallationPoint.X,
                         Y2 = InstallationPoint.Y + 20,
 
-                        Stroke = Brushes.DarkGreen
+                        Stroke = Brushes.Blue
                     };
 
                     Line ArrowLine_1_H = new Line
@@ -100,7 +100,7 @@ namespace TC_generator.Model.ConnectionObjects
                         X2 = GeneralLineH.X2 - 5,
                         Y2 = GeneralLineH.Y2 - 5,
 
-                        Stroke = Brushes.DarkGreen
+                        Stroke = Brushes.Blue
                     };
 
                     Line ArrowLine_2_H = new Line
@@ -110,7 +110,7 @@ namespace TC_generator.Model.ConnectionObjects
                         X2 = GeneralLineH.X2 + 5,
                         Y2 = GeneralLineH.Y2 - 5,
 
-                        Stroke = Brushes.DarkGreen
+                        Stroke = Brushes.Blue
                     };
 
                     lines = new Line[3] { GeneralLineH, ArrowLine_1_H, ArrowLine_2_H };
