@@ -34,7 +34,8 @@ namespace TC_generator
 
         public void Start()
         {
-            Director director = new Director((new ManagerInput(new DefaultInput())).GetInput(), this.Canvasss);
+            //Director director = new Director((new ManagerInput(new DefaultInput())).GetInput(), this.Canvasss);
+            Director director = new Director((new ManagerInput(new ExcelIntut())).GetInput(), this.Canvasss);
             director.StartDraw();
 
 
