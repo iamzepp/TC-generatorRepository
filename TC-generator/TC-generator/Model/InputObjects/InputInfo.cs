@@ -38,7 +38,9 @@ namespace TC_generator.Model.InputObjects
         public double[,] F_CoolerArray { get; set; }
         public double[,] F_HeaterArray { get; set; }
 
+        public int x { get; set; }
 
+        public int y { get; set; }
 
         public InputInfo()
         {
@@ -51,8 +53,8 @@ namespace TC_generator.Model.InputObjects
 
         public void StartInitial()
         {
-            int x = StudyCount * HotFlowCount;
-            int y = StudyCount * ColdFlowCount;
+            x = StudyCount * HotFlowCount;
+            y = StudyCount * ColdFlowCount;
 
             Type = new ConnectType[x, y];
             IntTypeConnect = new int[x, y];
