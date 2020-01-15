@@ -20,6 +20,8 @@ namespace TC_generator.Model.ConnectionObjects
         public Point HFPoint { get; set; }
         public Point CFPoint { get; set; }
 
+        public Line line { get; set; }
+
         public double Delta 
         { 
             get 
@@ -48,13 +50,13 @@ namespace TC_generator.Model.ConnectionObjects
 
         private Line CreateBranchConnectionLine()
         {
-    
 
-            Line line = new Line()
+
+            line = new Line()
             {
-                X1 = HFPoint.X-Offset,
+                X1 = HFPoint.X - Offset,
                 Y1 = HFPoint.Y,
-                X2 = HFPoint.X-Offset,
+                X2 = HFPoint.X - Offset,
                 Y2 = HFPoint.Y + Delta,
 
                 //X1 = HFPoint.X,

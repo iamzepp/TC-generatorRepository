@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using TC_generator.Model.ConnectionObjects;
@@ -18,6 +19,7 @@ namespace TC_generator.Model.BuilderObjects
     {
         readonly InputInfo input;
         readonly ItemsControl Canvasss;
+        public bool IsMoved;
 
         public Director(InputInfo input, ItemsControl Canvasss)
         {
@@ -187,7 +189,6 @@ namespace TC_generator.Model.BuilderObjects
 
                         if (CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
                         {
-                            n += 5;
                             Point point1 = new Point();
                             point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
                             point1.Y = HF.Single().Lines[branch.HotStudy].Y1;
@@ -195,17 +196,35 @@ namespace TC_generator.Model.BuilderObjects
                             Point point2 = new Point();
                             point2.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2);
                             point2.Y = CF.Single().Lines[branch.ColdStudy].Y1;
-              
-                            Canvasss.Items.Add((new BranchConnection(point1, point2, n)).BranchConnectionLine);
 
+                            //Line line = (new BranchConnection(point1, point2, n)).BranchConnectionLine;
+                            //line.Uid = "Connect" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
 
-                            Label E = new Label
-                            {
-                                Margin = new Thickness(point1.X, point1.Y, 0, 0),
-                                Content = "E " + (branch.HotNumber+1).ToString() + (branch.ColdNumber+1).ToString() + (branch.ColdStudy+1).ToString()
-                            };
+                            //Rectangle rc = new Rectangle();
+                            //rc.Width = 20;
+                            //rc.Height = Math.Abs(line.Y1 - line.Y2);
+                            //rc.Fill = Brushes.DeepPink;
+                            //rc.Opacity = 0;
+                            //rc.Name = line.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            //rc.Margin = new Thickness(line.X1-10, line.Y1, 0, 0);
+                            //rc.Stroke = Brushes.Pink;
+                            //rc.MouseDown += new MouseButtonEventHandler(Line_MouseButtonDown);
+                            //rc.MouseMove += new MouseEventHandler(Line_MouseButtonMove);
+                            //rc.MouseUp += new MouseButtonEventHandler(Line_MouseButtonUp);
+                            //rc.MouseEnter += new MouseEventHandler(Line_MouseButtonEnter);
+                            //rc.MouseLeave += new MouseEventHandler(Line_MouseButtonLeave);
+                           
 
-                            Canvasss.Items.Add(E);
+                            //Label E = new Label
+                            //{
+                            //    Margin = new Thickness(point1.X, point1.Y, 0, 0),
+                            //    Uid = "E" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
+                            //    Content = "E " + (branch.HotNumber+1).ToString() + (branch.ColdNumber+1).ToString() + (branch.ColdStudy+1).ToString()
+                            //};
+
+                            //Canvasss.Items.Add(line);
+                            //Canvasss.Items.Add(rc);
+                            //Canvasss.Items.Add(E);
                         }
 
                         if (CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
@@ -273,12 +292,33 @@ namespace TC_generator.Model.BuilderObjects
 
                             Canvasss.Items.Add((new BranchConnection(point1, point2, n)).BranchConnectionLine);
 
+                            Line line = (new BranchConnection(point1, point2, n)).BranchConnectionLine;
+                            line.Uid = "Connect" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+
+                            Rectangle rc = new Rectangle();
+                            rc.Width = 20;
+                            rc.Height = Math.Abs(line.Y1 - line.Y2);
+                            rc.Fill = Brushes.DeepPink;
+                            rc.Opacity = 0;
+                            rc.Name = line.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Margin = new Thickness(line.X1 - 10, line.Y1, 0, 0);
+                            rc.Stroke = Brushes.Pink;
+                            rc.MouseDown += new MouseButtonEventHandler(Line_MouseButtonDown);
+                            rc.MouseMove += new MouseEventHandler(Line_MouseButtonMove);
+                            rc.MouseUp += new MouseButtonEventHandler(Line_MouseButtonUp);
+                            rc.MouseEnter += new MouseEventHandler(Line_MouseButtonEnter);
+                            rc.MouseLeave += new MouseEventHandler(Line_MouseButtonLeave);
+
+
                             Label E = new Label
                             {
                                 Margin = new Thickness(point1.X, point1.Y, 0, 0),
+                                Uid = "E" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Content = "E " + (branch.HotNumber + 1).ToString() + (branch.ColdNumber + 1).ToString() + (branch.ColdStudy + 1).ToString()
                             };
 
+                            Canvasss.Items.Add(line);
+                            Canvasss.Items.Add(rc);
                             Canvasss.Items.Add(E);
                         }
 
@@ -312,7 +352,6 @@ namespace TC_generator.Model.BuilderObjects
 
                         if (CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
                         {
-                            n += 5;
                             Point point1 = new Point();
                             point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
                             point1.Y = HF.Single().Lines[branch.HotStudy].Y1;
@@ -323,28 +362,54 @@ namespace TC_generator.Model.BuilderObjects
 
                             Canvasss.Items.Add((new BranchConnection(point1, point2,n)).BranchConnectionLine);
 
-                            //Label Q = new Label
-                            //{
-                            //    Margin = new Thickness(point1.X-18, point1.Y-20, 0, 0),
-                            //    Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
-                            //};
+                            Line line = (new BranchConnection(point1, point2, n)).BranchConnectionLine;
+                            line.Uid = "Connect" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
 
-                            //Label F = new Label
-                            //{
-                            //    Margin = new Thickness(point2.X - 18, point2.Y + 5, 0, 0),
-                            //    Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " м2"
-                            //};
+                            Rectangle rc = new Rectangle();
+                            rc.Width = 20;
+                            rc.Height = Math.Abs(line.Y1 - line.Y2);
+                            rc.Fill = Brushes.DeepPink;
+                            rc.Opacity = 0;
+                            rc.Name = line.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Margin = new Thickness(line.X1 - 10, line.Y1, 0, 0);
+                            rc.Stroke = Brushes.Pink;
+                            rc.MouseDown += new MouseButtonEventHandler(Line_MouseButtonDown);
+                            rc.MouseMove += new MouseEventHandler(Line_MouseButtonMove);
+                            rc.MouseUp += new MouseButtonEventHandler(Line_MouseButtonUp);
+                            rc.MouseEnter += new MouseEventHandler(Line_MouseButtonEnter);
+                            rc.MouseLeave += new MouseEventHandler(Line_MouseButtonLeave);
 
-                            //Canvasss.Items.Add(Q);
-                            //Canvasss.Items.Add(F);
 
                             Label E = new Label
                             {
                                 Margin = new Thickness(point1.X, point1.Y, 0, 0),
+                                Uid = "E" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Content = "E " + (branch.HotNumber + 1).ToString() + (branch.ColdNumber + 1).ToString() + (branch.ColdStudy + 1).ToString()
                             };
 
+                           
+
+                            Label Q = new Label
+                            {
+                                Margin = new Thickness(point1.X - 18, point1.Y - 25, 0, 0),
+                                Uid = "Q" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
+                                Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
+                            };
+
+                            Label F = new Label
+                            {
+                                Margin = new Thickness(point2.X - 20, point2.Y + 5, 0, 0),
+                                Uid = "F" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
+                                Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " м2"
+                            };
+
+                            Canvasss.Items.Add(line);
+                            Canvasss.Items.Add(rc);
                             Canvasss.Items.Add(E);
+                            Canvasss.Items.Add(Q);
+                            Canvasss.Items.Add(F);
+
+
                         }
 
                         if (CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
@@ -426,5 +491,100 @@ namespace TC_generator.Model.BuilderObjects
             }
 
         }
+
+        public  Rectangle CurLine;
+        public Line ll;
+        public Label E;
+        public Label Q;
+        public Label F;
+
+
+        private void Line_MouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                IsMoved = true;
+                CurLine = (sender as Rectangle);
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Line)
+                        if ((c as Line).Uid == "Connect" + CurLine.Name.Substring(2, 4))
+                        {
+                            ll = (Line)c;
+                            break;
+                        }
+                }
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Label)
+                        if ((c as Label).Uid == "E" + CurLine.Name.Substring(2, 4))
+                        {
+                            E = (Label)c;
+                            break;
+                        }
+                }
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Label)
+                        if ((c as Label).Uid == "Q" + CurLine.Name.Substring(2, 4))
+                        {
+                            Q = (Label)c;
+                            break;
+                        }
+                }
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Label)
+                        if ((c as Label).Uid == "F" + CurLine.Name.Substring(2, 4))
+                        {
+                            F = (Label)c;
+                            break;
+                        }
+                }
+
+            }
+        }
+
+        private void Line_MouseButtonMove(object sender, MouseEventArgs e)
+        {
+            if (IsMoved & e.LeftButton == MouseButtonState.Pressed)
+            {
+                CurLine.Opacity = 0.15;
+                double X = e.GetPosition(Canvasss).X;
+                CurLine.Margin = new Thickness(X - 10, CurLine.Margin.Top, 0, 0);
+                E.Margin = new Thickness(X, E.Margin.Top, 0, 0);
+                Q.Margin = new Thickness(X-18, Q.Margin.Top, 0, 0);
+                F.Margin = new Thickness(X-18, F.Margin.Top, 0, 0);
+                ll.X1 = X;
+                ll.X2 = X;
+
+            }
+        }
+
+        private void Line_MouseButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            IsMoved = false;
+            CurLine.Opacity = 0;
+            CurLine = null;
+            ll = null;
+            E = null;
+            Q = null;
+            F = null;
+        }
+
+        private void Line_MouseButtonLeave(object sender, MouseEventArgs e)
+        {
+            (sender as Rectangle).Opacity = 0;
+        }
+
+        private void Line_MouseButtonEnter(object sender, MouseEventArgs e)
+        {
+            (sender as Rectangle).Opacity = 0.15;
+        }
+
     }
 }
