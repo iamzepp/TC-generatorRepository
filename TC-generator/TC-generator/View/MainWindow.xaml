@@ -8,24 +8,48 @@
     Title="TC-generator"
     Width="800"
     Height="450"
+    Icon="/img/logo.ico"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
 
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
 
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <ItemsControl
-            x:Name="Canvasss"
-            MouseLeftButtonDown="Canvasss_MouseLeftButtonDown"
-            MouseMove="Canvasss_MouseMove"
-            MouseRightButtonDown="Canvasss_MouseRightButtonDown">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-    </ScrollViewer>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <Menu Grid.Row="0" FontSize="15">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Открыть" />
+                <MenuItem Click="MenuItem_Click_3" Header="Сохранить в PDF" />
+                <MenuItem Click="MenuItem_Click_1" Header="Сделать скриншот" />
+                <Separator />
+                <MenuItem Header="Выйти" />
+            </MenuItem>
+            <MenuItem Header="Вид">
+                <MenuItem Header="Скрыть стадии" Click="MenuItem_Click" />
+            </MenuItem>
+            <MenuItem Header="Инструменты" />
+            <MenuItem Header="Справка" />
+
+        </Menu>
+
+        <ScrollViewer
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="Canvasss">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
 </Window>

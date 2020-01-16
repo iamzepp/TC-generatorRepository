@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ using System.Windows.Shapes;
 using TC_generator.Model.BuilderObjects;
 using TC_generator.Model.InputObjects;
 using TC_generator.Model.Objects;
+using TC_generator.Printer;
 
 namespace TC_generator
 {
@@ -25,78 +27,79 @@ namespace TC_generator
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool flag = true;
+        Director director;
+
         public MainWindow()
         {
             InitializeComponent();
-
             Start();
         }
-
-        Line CurLine;
-        bool Flag = true;
-        Director director;
 
         public void Start()
         {
             //Director director = new Director((new ManagerInput(new DefaultInput())).GetInput(), this.Canvasss);
-            director = new Director((new ManagerInput(new ExcelIntut())).GetInput(), this.Canvasss);
+            director = new Director((new ManagerInput(new ExcelIntut())).GetInput(), Canvasss);
             director.StartDraw();
-
-
-            //PrintDialog dialog = new PrintDialog();
-            //if (dialog.ShowDialog() == true)
-            //{
-            //    dialog.PrintVisual(Canvasss, "Визитная карточка");
-            //}
         }
 
-        List<Point> p = new List<Point>();
-        int n = 0;
-
-        private void Canvasss_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            //if (n == 0)
-            //{   
-            //        List<Line> lines = Canvasss.Items.OfType<Line>().ToList();
-
-            //        foreach (Line l in lines)
-            //        {
-            //            if (Math.Abs(l.X1 - e.GetPosition(this).X) < 20 && Math.Abs(l.Y1 - e.GetPosition(this).Y) < 20)
-            //            {
-            //                CurLine = l;
-            //                Cursor = Cursors.Hand;
-            //                p.Add(new Point(l.X1, l.Y1));
-            //                n += 1;
-            //            }
-            //        }
-            //}
-            //else if(CurLine!=null)
-            //{
-            //    p.Add(new Point(e.GetPosition(this).X, e.GetPosition(this).Y));
-            //    CurLine.X1 = p[1].X;
-            //    CurLine.X2 = p[1].X;
-            //    n = 0;
-            //    Cursor = Cursors.Arrow;
-            //}
+            IPrint printer = new CanvasPrinter();
+            printer.Print(Canvasss);
         }
 
-        private void Canvasss_MouseMove(object sender, MouseEventArgs e)
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
+            if (flag)
+            {
+                (sender as MenuItem).Header = "Показать стадии";
+                flag = false;
 
-            //if (e.LeftButton == MouseButtonState.Pressed &  CurLine != null & director.IsMoved)
-            //{
-            //    director.CurLine.X1 = e.GetPosition(this).X;
-            //    director.CurLine.X2 = e.GetPosition(this).X;
-            //}
+                List<Label> list = new List<Label>();
+
+                int i = 0;
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Label)
+                        if ((c as Label).Uid == "Study_label" + i)
+                        {
+                            list.Add((Label)c);
+                            i++;
+                        }
+                }
+
+                foreach (var c in list)
+                    c.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                (sender as MenuItem).Header = "Скрыть стадии";
+                flag = true;
+
+                List<Label> list = new List<Label>();
+
+                int i = 0;
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Label)
+                        if ((c as Label).Uid == "Study_label" + i)
+                        {
+                            list.Add((Label)c);
+                            i++;
+                        }
+                }
+
+                foreach (var c in list)
+                    c.Visibility = Visibility.Visible;
+            }
+
         }
 
-        private void Canvasss_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            //CurLine = null;
-            //Flag = true;
-            //Cursor = Cursors.Arrow;
-            //p = null;
-            //n = 0;
+            IPrint printer = new ScrinPrinter();
+            printer.Print(director);
         }
     }
 }

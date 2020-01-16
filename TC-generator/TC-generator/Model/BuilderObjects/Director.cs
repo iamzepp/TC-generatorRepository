@@ -17,9 +17,12 @@ namespace TC_generator.Model.BuilderObjects
 {
     public class Director
     {
-        readonly InputInfo input;
+        public InputInfo input;
         readonly ItemsControl Canvasss;
         public bool IsMoved;
+        public int k = 0;
+        public int Y = 120;
+        public int XforHF = 190;
 
         public Director(InputInfo input, ItemsControl Canvasss)
         {
@@ -34,9 +37,8 @@ namespace TC_generator.Model.BuilderObjects
 
         public void StartDraw()
         {
-            int XforHF = 300;
-            int XforCF = 300 + 300 * input.StudyCount;
-            int Y = 100;
+           
+            int XforCF = 190 + 300 * input.StudyCount;
 
             List<EnergyFlowBase> flows = new List<EnergyFlowBase>();
 
@@ -52,8 +54,8 @@ namespace TC_generator.Model.BuilderObjects
                 Y += 100;
             }
 
-            Canvasss.Height = Y + 100;
-            Canvasss.Width = 300 * input.StudyCount + 2 * XforCF;
+            Canvasss.Height = Y + 120;
+            Canvasss.Width = 300 * input.StudyCount + 2 * XforHF;
 
             Draw(flows);
             //DrawParallel(flows);
@@ -99,9 +101,13 @@ namespace TC_generator.Model.BuilderObjects
                     Label p = new Label
                     {
                         Foreground = Brushes.DarkRed,
-                        Margin = new Thickness(flow.IdTextPoint[i].X, flow.IdTextPoint[i].Y-10, 0, 0),
-                        Content = (i + 1).ToString()
+                        Margin = new Thickness(flow.IdTextPoint[i].X, flow.IdTextPoint[i].Y - 10, 0, 0),
+                        Content = (i + 1).ToString(),
+                        Uid = "Study_label" + k.ToString()
+
                     };
+
+                    k++;
 
                     Canvasss.Items.Add(p);
                 }
@@ -142,6 +148,7 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
+                                
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
@@ -151,7 +158,31 @@ namespace TC_generator.Model.BuilderObjects
                                 Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
-                           
+                            Rectangle rc = new Rectangle();
+                            rc.Width = 20;
+                            rc.Height = 46;
+                            rc.Fill = Brushes.DeepPink;
+                            rc.Opacity = 0;
+                            rc.Name = "Hot_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Margin = new Thickness(point.X - 20, point.Y -23, 0, 0);
+                            rc.Stroke = Brushes.Pink;
+                            rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
+                            rc.MouseMove += new MouseEventHandler(U_MouseButtonMove);
+                            rc.MouseUp += new MouseButtonEventHandler(U_MouseButtonUp);
+                            rc.MouseEnter += new MouseEventHandler(U_MouseButtonEnter);
+                            rc.MouseLeave += new MouseEventHandler(U_MouseButtonLeave);
+
+                            Rectangle kv = new Rectangle();
+                            kv.Width = 20;
+                            kv.Height = 10;
+                            kv.Fill = Brushes.Transparent;
+                            kv.Opacity = 1;
+                            kv.Stroke = Brushes.Blue;
+                            kv.Margin = new Thickness(point.X-10, point.Y-5, 0, 0);
+
+
+                            Canvasss.Items.Add(kv);
+                            Canvasss.Items.Add(rc);
                             Canvasss.Items.Add(Q);
                         }
 
@@ -177,7 +208,30 @@ namespace TC_generator.Model.BuilderObjects
                                 Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
+                            Rectangle rc = new Rectangle();
+                            rc.Width = 20;
+                            rc.Height = 46;
+                            rc.Fill = Brushes.DeepPink;
+                            rc.Opacity = 0;
+                            rc.Name = "Cold_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Margin = new Thickness(point.X - 10, point.Y-23, 0, 0);
+                            rc.Stroke = Brushes.Pink;
+                            rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
+                            rc.MouseMove += new MouseEventHandler(U_MouseButtonMove);
+                            rc.MouseUp += new MouseButtonEventHandler(U_MouseButtonUp);
+                            rc.MouseEnter += new MouseEventHandler(U_MouseButtonEnter);
+                            rc.MouseLeave += new MouseEventHandler(U_MouseButtonLeave);
 
+                            Rectangle kv = new Rectangle();
+                            kv.Width = 20;
+                            kv.Height = 10;
+                            kv.Fill = Brushes.Transparent;
+                            kv.Opacity = 1;
+                            kv.Stroke = Brushes.Red;
+                            kv.Margin = new Thickness(point.X-10, point.Y-5, 0, 0);
+
+                            Canvasss.Items.Add(kv);
+                            Canvasss.Items.Add(rc);
                             Canvasss.Items.Add(Q);
 
                         }
@@ -205,7 +259,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = Math.Abs(line.Y1 - line.Y2);
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Name = line.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(line.X1 - 10, line.Y1, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(Line_MouseButtonDown);
@@ -214,24 +268,37 @@ namespace TC_generator.Model.BuilderObjects
                             rc.MouseEnter += new MouseEventHandler(Line_MouseButtonEnter);
                             rc.MouseLeave += new MouseEventHandler(Line_MouseButtonLeave);
 
+                            Ellipse ELL_H = new Ellipse();
+                            ELL_H.Uid = "ELL_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            ELL_H.Fill = Brushes.Black;
+                            ELL_H.Margin = new Thickness(line.X1 - 2.5, line.Y1 - 2.5, 0, 0);
+                            ELL_H.Width = 5;
+                            ELL_H.Height = 5;
+
+                            Ellipse ELL_C = new Ellipse();
+                            ELL_C.Uid = "ELL_C" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            ELL_C.Fill = Brushes.Black;
+                            ELL_C.Margin = new Thickness(line.X2 - 2.5, line.Y2 - 2.5, 0, 0);
+                            ELL_C.Width = 5;
+                            ELL_C.Height = 5;
 
                             Label E = new Label
                             {
                                 Margin = new Thickness(point1.X, point1.Y, 0, 0),
                                 Uid = "E" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
-                                Content = "E " + (branch.HotNumber + 1).ToString() + (branch.ColdNumber + 1).ToString() + (branch.ColdStudy + 1).ToString()
+                                Content = "E " + (branch.HotNumber + 1).ToString() + (branch.HotStudy + 1).ToString() + (branch.ColdNumber + 1).ToString() + (branch.ColdStudy + 1).ToString()
                             };
 
                             Label Q = new Label
                             {
-                                Margin = new Thickness(point1.X - 18, point1.Y - 25, 0, 0),
+                                Margin = new Thickness(point1.X - 20, point1.Y - 25, 0, 0),
                                 Uid = "Q" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
-                                Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
+                                Content = input.Q_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
                             Label F = new Label
                             {
-                                Margin = new Thickness(point2.X - 20, point2.Y + 5, 0, 0),
+                                Margin = new Thickness(point1.X - 25, point2.Y, 0, 0),
                                 Uid = "F" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " м2"
                             };
@@ -241,6 +308,9 @@ namespace TC_generator.Model.BuilderObjects
                             Canvasss.Items.Add(E);
                             Canvasss.Items.Add(Q);
                             Canvasss.Items.Add(F);
+                            Canvasss.Items.Add(ELL_H);
+                            Canvasss.Items.Add(ELL_C);
+
                         }
 
                         if (CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
@@ -253,6 +323,7 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
+                                utility.UtilityLines[i].Uid = i.ToString()+ "UC" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
@@ -262,7 +333,32 @@ namespace TC_generator.Model.BuilderObjects
                                 Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
+                            Rectangle rc = new Rectangle();
+                            rc.Width = 20;
+                            rc.Height = 46;
+                            rc.Fill = Brushes.DeepPink;
+                            rc.Opacity = 0;
+                            rc.Uid = "Hot_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Margin = new Thickness(point.X - 10, point.Y - 23, 0, 0);
+                            rc.Stroke = Brushes.Pink;
+                            rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
+                            rc.MouseMove += new MouseEventHandler(U_MouseButtonMove);
+                            rc.MouseUp += new MouseButtonEventHandler(U_MouseButtonUp);
+                            rc.MouseEnter += new MouseEventHandler(U_MouseButtonEnter);
+                            rc.MouseLeave += new MouseEventHandler(U_MouseButtonLeave);
 
+                            Rectangle kv = new Rectangle();
+                            kv.Width = 20;
+                            kv.Height = 10;
+                            kv.Fill = Brushes.Transparent;
+                            kv.Opacity = 1;
+                            kv.Stroke = Brushes.Blue;
+                            kv.Margin = new Thickness(point.X-10, point.Y-5, 0, 0);
+
+
+                            Canvasss.Items.Add(kv);
+
+                            Canvasss.Items.Add(rc);
                             Canvasss.Items.Add(Q);
 
                         }
@@ -277,6 +373,7 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
+                                utility.UtilityLines[i].Uid = i.ToString() + "UH" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
@@ -286,7 +383,30 @@ namespace TC_generator.Model.BuilderObjects
                                 Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
+                            Rectangle rc = new Rectangle();
+                            rc.Width = 20;
+                            rc.Height = 46;
+                            rc.Fill = Brushes.DeepPink;
+                            rc.Opacity = 0;
+                            rc.Uid = "Cold_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Margin = new Thickness(point.X - 10, point.Y - 23, 0, 0);
+                            rc.Stroke = Brushes.Pink;
+                            rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
+                            rc.MouseMove += new MouseEventHandler(U_MouseButtonMove);
+                            rc.MouseUp += new MouseButtonEventHandler(U_MouseButtonUp);
+                            rc.MouseEnter += new MouseEventHandler(U_MouseButtonEnter);
+                            rc.MouseLeave += new MouseEventHandler(U_MouseButtonLeave);
 
+                            Rectangle kv = new Rectangle();
+                            kv.Width = 20;
+                            kv.Height = 10;
+                            kv.Fill = Brushes.Transparent;
+                            kv.Opacity = 1;
+                            kv.Stroke = Brushes.Red;
+                            kv.Margin = new Thickness(point.X-10, point.Y-5, 0, 0);
+
+                            Canvasss.Items.Add(kv);
+                            Canvasss.Items.Add(rc);
                             Canvasss.Items.Add(Q);
 
                         }
@@ -314,7 +434,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = Math.Abs(line.Y1 - line.Y2);
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Name = line.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(line.X1 - 10, line.Y1, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(Line_MouseButtonDown);
@@ -323,24 +443,37 @@ namespace TC_generator.Model.BuilderObjects
                             rc.MouseEnter += new MouseEventHandler(Line_MouseButtonEnter);
                             rc.MouseLeave += new MouseEventHandler(Line_MouseButtonLeave);
 
+                            Ellipse ELL_H = new Ellipse();
+                            ELL_H.Uid = "ELL_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            ELL_H.Fill = Brushes.Black;
+                            ELL_H.Margin = new Thickness(line.X1 - 2.5, line.Y1 - 2.5, 0, 0);
+                            ELL_H.Width = 5;
+                            ELL_H.Height = 5;
+
+                            Ellipse ELL_C = new Ellipse();
+                            ELL_C.Uid = "ELL_C" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            ELL_C.Fill = Brushes.Black;
+                            ELL_C.Margin = new Thickness(line.X2 - 2.5, line.Y2 - 2.5, 0, 0);
+                            ELL_C.Width = 5;
+                            ELL_C.Height = 5;
 
                             Label E = new Label
                             {
                                 Margin = new Thickness(point1.X, point1.Y, 0, 0),
                                 Uid = "E" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
-                                Content = "E " + (branch.HotNumber + 1).ToString() + (branch.ColdNumber + 1).ToString() + (branch.ColdStudy + 1).ToString()
+                                Content = "E " + (branch.HotNumber + 1).ToString() + (branch.HotStudy + 1).ToString() + (branch.ColdNumber + 1).ToString() + (branch.ColdStudy + 1).ToString()
                             };
 
                             Label Q = new Label
                             {
-                                Margin = new Thickness(point1.X - 18, point1.Y - 25, 0, 0),
+                                Margin = new Thickness(point1.X - 20, point1.Y - 25, 0, 0),
                                 Uid = "Q" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
-                                Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
+                                Content = input.Q_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
                             Label F = new Label
                             {
-                                Margin = new Thickness(point2.X - 20, point2.Y + 5, 0, 0),
+                                Margin = new Thickness(point1.X - 25, point2.Y, 0, 0),
                                 Uid = "F" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " м2"
                             };
@@ -350,6 +483,9 @@ namespace TC_generator.Model.BuilderObjects
                             Canvasss.Items.Add(E);
                             Canvasss.Items.Add(Q);
                             Canvasss.Items.Add(F);
+                            Canvasss.Items.Add(ELL_H);
+                            Canvasss.Items.Add(ELL_C);
+
                         }
 
                         if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
@@ -371,7 +507,30 @@ namespace TC_generator.Model.BuilderObjects
                                 Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
+                            Rectangle rc = new Rectangle();
+                            rc.Width = 20;
+                            rc.Height = 46;
+                            rc.Fill = Brushes.DeepPink;
+                            rc.Opacity = 0;
+                            rc.Uid = "Cold_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Margin = new Thickness(point.X - 10, point.Y - 23, 0, 0);
+                            rc.Stroke = Brushes.Pink;
+                            rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
+                            rc.MouseMove += new MouseEventHandler(U_MouseButtonMove);
+                            rc.MouseUp += new MouseButtonEventHandler(U_MouseButtonUp);
+                            rc.MouseEnter += new MouseEventHandler(U_MouseButtonEnter);
+                            rc.MouseLeave += new MouseEventHandler(U_MouseButtonLeave);
 
+                            Rectangle kv = new Rectangle();
+                            kv.Width = 20;
+                            kv.Height = 10;
+                            kv.Fill = Brushes.Transparent;
+                            kv.Opacity = 1;
+                            kv.Stroke = Brushes.Red;
+                            kv.Margin = new Thickness(point.X-10, point.Y-5, 0, 0);
+
+                            Canvasss.Items.Add(kv);
+                            Canvasss.Items.Add(rc);
                             Canvasss.Items.Add(Q);
 
                         }
@@ -390,7 +549,8 @@ namespace TC_generator.Model.BuilderObjects
                             point2.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2);
                             point2.Y = CF.Single().Lines[branch.ColdStudy].Y1;
 
-                            Line line = (new BranchConnection(point1, point2)).BranchConnectionLine;  
+
+                            Line line = (new BranchConnection(point1, point2)).BranchConnectionLine;
                             line.Uid = "Connect" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
 
                             Rectangle rc = new Rectangle();
@@ -398,7 +558,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = Math.Abs(line.Y1 - line.Y2);
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Name = line.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Name = "rc" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(line.X1 - 10, line.Y1, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(Line_MouseButtonDown);
@@ -407,24 +567,37 @@ namespace TC_generator.Model.BuilderObjects
                             rc.MouseEnter += new MouseEventHandler(Line_MouseButtonEnter);
                             rc.MouseLeave += new MouseEventHandler(Line_MouseButtonLeave);
 
+                            Ellipse ELL_H = new Ellipse();
+                            ELL_H.Uid = "ELL_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            ELL_H.Fill = Brushes.Black;
+                            ELL_H.Margin = new Thickness(line.X1 - 2.5, line.Y1 - 2.5, 0, 0);
+                            ELL_H.Width = 5;
+                            ELL_H.Height = 5;
+
+                            Ellipse ELL_C = new Ellipse();
+                            ELL_C.Uid = "ELL_C" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            ELL_C.Fill = Brushes.Black;
+                            ELL_C.Margin = new Thickness(line.X2 - 2.5, line.Y2 - 2.5, 0, 0);
+                            ELL_C.Width = 5;
+                            ELL_C.Height = 5;
 
                             Label E = new Label
                             {
                                 Margin = new Thickness(point1.X, point1.Y, 0, 0),
                                 Uid = "E" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
-                                Content = "E " + (branch.HotNumber + 1).ToString() + (branch.ColdNumber + 1).ToString() + (branch.ColdStudy + 1).ToString()
+                                Content = "E " + (branch.HotNumber + 1).ToString() + (branch.HotStudy + 1).ToString() + (branch.ColdNumber + 1).ToString() + (branch.ColdStudy + 1).ToString()
                             };
-               
+
                             Label Q = new Label
                             {
-                                Margin = new Thickness(point1.X - 18, point1.Y - 25, 0, 0),
+                                Margin = new Thickness(point1.X - 20, point1.Y - 25, 0, 0),
                                 Uid = "Q" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
-                                Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
+                                Content = input.Q_RecuperatorArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
                             Label F = new Label
                             {
-                                Margin = new Thickness(point2.X - 20, point2.Y + 5, 0, 0),
+                                Margin = new Thickness(point1.X - 25, point2.Y, 0, 0),
                                 Uid = "F" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Content = input.F_RecuperatorArray[branch.i, branch.j].ToString() + " м2"
                             };
@@ -434,7 +607,8 @@ namespace TC_generator.Model.BuilderObjects
                             Canvasss.Items.Add(E);
                             Canvasss.Items.Add(Q);
                             Canvasss.Items.Add(F);
-
+                            Canvasss.Items.Add(ELL_H);
+                            Canvasss.Items.Add(ELL_C);
 
                         }
 
@@ -457,7 +631,30 @@ namespace TC_generator.Model.BuilderObjects
                                 Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
                             };
 
+                            Rectangle rc = new Rectangle();
+                            rc.Width = 20;
+                            rc.Height = 46;
+                            rc.Fill = Brushes.DeepPink;
+                            rc.Opacity = 0;
+                            rc.Uid = "Hot_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Margin = new Thickness(point.X - 10, point.Y - 23, 0, 0);
+                            rc.Stroke = Brushes.Pink;
+                            rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
+                            rc.MouseMove += new MouseEventHandler(U_MouseButtonMove);
+                            rc.MouseUp += new MouseButtonEventHandler(U_MouseButtonUp);
+                            rc.MouseEnter += new MouseEventHandler(U_MouseButtonEnter);
+                            rc.MouseLeave += new MouseEventHandler(U_MouseButtonLeave);
 
+                            Rectangle kv = new Rectangle();
+                            kv.Width = 20;
+                            kv.Height = 10;
+                            kv.Fill = Brushes.Transparent;
+                            kv.Opacity = 1;
+                            kv.Stroke = Brushes.Blue;
+                            kv.Margin = new Thickness(point.X-10, point.Y-5, 0, 0);
+
+                            Canvasss.Items.Add(kv);
+                            Canvasss.Items.Add(rc);
                             Canvasss.Items.Add(Q);
 
                         }
@@ -523,6 +720,17 @@ namespace TC_generator.Model.BuilderObjects
         public Label E_l;
         public Label Q_l;
         public Label F_l;
+        public Ellipse E_H;
+        public Ellipse E_C;
+
+        public Line UC_0;
+        public Line UC_1;
+        public Line UC_2;
+
+        public Line UH_0;
+        public Line UH_1;
+        public Line UH_2;
+
 
 
         private void Line_MouseButtonDown(object sender, MouseButtonEventArgs e)
@@ -573,6 +781,92 @@ namespace TC_generator.Model.BuilderObjects
                         }
                 }
 
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Ellipse)
+                        if ((c as Ellipse).Uid == "ELL_H" + n)
+                        {
+                            E_H = (Ellipse)c;
+                            break;
+                        }
+                }
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Ellipse)
+                        if ((c as Ellipse).Uid == "ELL_C" + n)
+                        {
+                            E_C = (Ellipse)c;
+                            break;
+                        }
+                }
+
+                /////////////////////////
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Line)
+                        if ((c as Line).Uid == "0UC" + n)
+                        {
+                            UC_0 = (Line)c;
+                            break;
+                        }
+                }
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Line)
+                        if ((c as Line).Uid == "1UC" + n)
+                        {
+                            UC_1 = (Line)c;
+                            break;
+                        }
+                }
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Line)
+                        if ((c as Line).Uid == "2UC" + n)
+                        {
+                            UC_2 = (Line)c;
+                            break;
+                        }
+                }
+
+                /////////////////////////
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Line)
+                        if ((c as Line).Uid == "0HC" + n)
+                        {
+                            UH_0 = (Line)c;
+                            break;
+                        }
+                }
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Line)
+                        if ((c as Line).Uid == "1HC" + n)
+                        {
+                            UH_1 = (Line)c;
+                            break;
+                        }
+                }
+
+                foreach (var c in Canvasss.ItemContainerGenerator.Items)
+                {
+                    if (c is Line)
+                        if ((c as Line).Uid == "2HC" + n)
+                        {
+                            UH_2 = (Line)c;
+                            break;
+                        }
+                }
+
+
+
             }
         }
 
@@ -584,8 +878,33 @@ namespace TC_generator.Model.BuilderObjects
                 double X = e.GetPosition(Canvasss).X;
                 CurLine.Margin = new Thickness(X - 10, CurLine.Margin.Top, 0, 0);
                 E_l.Margin = new Thickness(X, E_l.Margin.Top, 0, 0);
-                Q_l.Margin = new Thickness(X-18, Q_l.Margin.Top, 0, 0);
-                F_l.Margin = new Thickness(X-18, F_l.Margin.Top, 0, 0);
+                Q_l.Margin = new Thickness(X - 18, Q_l.Margin.Top, 0, 0);
+                F_l.Margin = new Thickness(X - 18, F_l.Margin.Top, 0, 0);
+                E_H.Margin = new Thickness(X-2.5, E_H.Margin.Top, 0, 0);
+                E_C.Margin = new Thickness(X-2.5, E_C.Margin.Top, 0, 0);
+
+                if(UC_0 != null)
+                {
+                    UC_0.X1 = X;
+                    UC_1.X1 = X;
+                    UC_2.X1 = X;
+
+                    UC_0.X2 = X;
+                    UC_1.X2 = X;
+                    UC_2.X2 = X;
+                }
+
+                if (UH_0 != null)
+                {
+                    UH_0.X1 = X;
+                    UH_1.X1 = X;
+                    UH_2.X1 = X;
+
+                    UH_0.X2 = X;
+                    UH_1.X2 = X;
+                    UH_2.X2 = X;
+                }
+
                 ll.X1 = X;
                 ll.X2 = X;
 
@@ -601,14 +920,208 @@ namespace TC_generator.Model.BuilderObjects
             E_l = null;
             Q_l = null;
             F_l = null;
+            E_C = null;
+            E_H = null;
         }
 
         private void Line_MouseButtonLeave(object sender, MouseEventArgs e)
         {
-            (sender as Rectangle).Opacity = 0;
+            Rectangle rc = (sender as Rectangle);
+            rc.Opacity = 0;
+
+            Rectangle H = default;
+            Rectangle C = default;
+
+            string n = rc.Name.Substring(2, 4);
+
+            /////////////////////////
+
+            foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            {
+                if (c is Rectangle)
+                    if ((c as Rectangle).Uid == "Hot_U" + n)
+                    {
+                        H = (Rectangle)c;
+                        break;
+                    }
+            }
+
+            foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            {
+                if (c is Rectangle)
+                    if ((c as Rectangle).Uid == "Cold_U" + n)
+                    {
+                        C = (Rectangle)c;
+                        break;
+                    }
+            }
+
+            if (C != null)
+                C.Opacity = 0;
+
+            if (H != null)
+                H.Opacity = 0;
+
         }
 
         private void Line_MouseButtonEnter(object sender, MouseEventArgs e)
+        {
+            Rectangle rc = (sender as Rectangle);
+            rc.Opacity = 0.15;
+
+            Rectangle H = default;
+            Rectangle C = default;
+
+            string n = rc.Name.Substring(2, 4);
+
+            /////////////////////////
+
+            foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            {
+                if (c is Rectangle)
+                    if ((c as Rectangle).Uid == "Hot_U" + n)
+                    {
+                        H = (Rectangle)c;
+                        break;
+                    }
+            }
+
+            foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            {
+                if (c is Rectangle)
+                    if ((c as Rectangle).Uid == "Cold_U" + n)
+                    {
+                        C = (Rectangle)c;
+                        break;
+                    }
+            }
+
+            if (C != null)
+                C.Opacity = 0.15;
+
+            if (H != null)
+                H.Opacity = 0.15;
+        }
+
+        /////////////////////////////////////////////////
+
+        //public Rectangle CurLine;
+        //public Line ll;
+        //public Label E_l;
+        //public Label Q_l;
+        //public Label F_l;
+        //public Ellipse E_H;
+        //public Ellipse E_C;
+
+
+        private void U_MouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (e.LeftButton == MouseButtonState.Pressed)
+            //{
+            //    IsMoved = true;
+            //    CurLine = (sender as Rectangle);
+            //    string n = CurLine.Name.Substring(2, 4);
+
+            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            //    {
+            //        if (c is Line)
+            //            if ((c as Line).Uid == "Connect" + n)
+            //            {
+            //                ll = (Line)c;
+            //                break;
+            //            }
+            //    }
+
+            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            //    {
+            //        if (c is Label)
+            //            if ((c as Label).Uid == "E" + n)
+            //            {
+            //                E_l = (Label)c;
+            //                break;
+            //            }
+            //    }
+
+            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            //    {
+            //        if (c is Label)
+            //            if ((c as Label).Uid == "Q" + n)
+            //            {
+            //                Q_l = (Label)c;
+            //                break;
+            //            }
+            //    }
+
+            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            //    {
+            //        if (c is Label)
+            //            if ((c as Label).Uid == "F" + n)
+            //            {
+            //                F_l = (Label)c;
+            //                break;
+            //            }
+            //    }
+
+            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            //    {
+            //        if (c is Ellipse)
+            //            if ((c as Ellipse).Uid == "ELL_H" + n)
+            //            {
+            //                E_H = (Ellipse)c;
+            //                break;
+            //            }
+            //    }
+
+            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
+            //    {
+            //        if (c is Ellipse)
+            //            if ((c as Ellipse).Uid == "ELL_C" + n)
+            //            {
+            //                E_C = (Ellipse)c;
+            //                break;
+            //            }
+            //    }
+
+            //}
+        }
+
+        private void U_MouseButtonMove(object sender, MouseEventArgs e)
+        {
+            //if (IsMoved & e.LeftButton == MouseButtonState.Pressed)
+            //{
+            //    CurLine.Opacity = 0.15;
+            //    double X = e.GetPosition(Canvasss).X;
+            //    CurLine.Margin = new Thickness(X - 10, CurLine.Margin.Top, 0, 0);
+            //    E_l.Margin = new Thickness(X, E_l.Margin.Top, 0, 0);
+            //    Q_l.Margin = new Thickness(X - 18, Q_l.Margin.Top, 0, 0);
+            //    F_l.Margin = new Thickness(X - 18, F_l.Margin.Top, 0, 0);
+            //    E_H.Margin = new Thickness(X - 2.5, E_H.Margin.Top, 0, 0);
+            //    E_C.Margin = new Thickness(X - 2.5, E_C.Margin.Top, 0, 0);
+            //    ll.X1 = X;
+            //    ll.X2 = X;
+
+            //}
+        }
+
+        private void U_MouseButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //IsMoved = false;
+            //CurLine.Opacity = 0;
+            //CurLine = null;
+            //ll = null;
+            //E_l = null;
+            //Q_l = null;
+            //F_l = null;
+            //E_C = null;
+            //E_H = null;
+        }
+
+        private void U_MouseButtonLeave(object sender, MouseEventArgs e)
+        {
+            (sender as Rectangle).Opacity = 0;
+        }
+
+        private void U_MouseButtonEnter(object sender, MouseEventArgs e)
         {
             (sender as Rectangle).Opacity = 0.15;
         }
