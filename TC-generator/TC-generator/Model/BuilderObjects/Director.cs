@@ -20,7 +20,7 @@ namespace TC_generator.Model.BuilderObjects
     public class Director
     {
         public InputInfo input;
-        readonly ItemsControl Canvasss;
+        public ItemsControl Canvasss;
         public bool IsMoved;
         public int k = 0;
         public int Y = 120;
@@ -123,10 +123,6 @@ namespace TC_generator.Model.BuilderObjects
 
         private void DrawConnect(List<EnergyFlowBase> flows)
         {
-            int n = 10;
-
-            List<double> buffer = new List<double>();
-
             foreach(var branch in input.GetBranches())
             {
                 var HF = (from flow in flows
@@ -151,12 +147,14 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
-                                
+
+                                utility.UtilityLines[i].Uid = i.ToString() + "LineH" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
                             Label Q = new Label
                             {
+                                Uid = "Q_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Margin = new Thickness(utility.UtilityLines[1].X1-18, utility.UtilityLines[1].Y1, 0, 0),
                                 Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
                             };
@@ -166,7 +164,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = 46;
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Name = "Hot_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Name = "V1H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(point.X - 20, point.Y -23, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
@@ -179,6 +177,7 @@ namespace TC_generator.Model.BuilderObjects
                             kv.Width = 20;
                             kv.Height = 10;
                             kv.Fill = Brushes.Transparent;
+                            kv.Uid = "kv_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             kv.Opacity = 1;
                             kv.Stroke = Brushes.Blue;
                             kv.Margin = new Thickness(point.X-10, point.Y-5, 0, 0);
@@ -202,11 +201,14 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
+                                string str = i.ToString() + "LineC" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                                utility.UtilityLines[i].Uid = str;
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
                             Label Q = new Label
                             {
+                                Uid = "Q_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1-25, 0, 0),
                                 Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
                             };
@@ -216,7 +218,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = 46;
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Name = "Cold_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Name = "V1C" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(point.X - 10, point.Y-23, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
@@ -228,6 +230,7 @@ namespace TC_generator.Model.BuilderObjects
                             Rectangle kv = new Rectangle();
                             kv.Width = 20;
                             kv.Height = 10;
+                            kv.Uid = "kv_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             kv.Fill = Brushes.Transparent;
                             kv.Opacity = 1;
                             kv.Stroke = Brushes.Red;
@@ -326,12 +329,13 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
-                                utility.UtilityLines[i].Uid = i.ToString()+ "UC" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                                utility.UtilityLines[i].Uid = i.ToString() + "LineH" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
                             Label Q = new Label
                             {
+                                Uid = "Q_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1, 0, 0),
                                 Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
                             };
@@ -341,7 +345,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = 46;
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Uid = "Hot_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Uid = "V2H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(point.X - 10, point.Y - 23, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
@@ -353,6 +357,7 @@ namespace TC_generator.Model.BuilderObjects
                             Rectangle kv = new Rectangle();
                             kv.Width = 20;
                             kv.Height = 10;
+                            kv.Uid = "kv_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             kv.Fill = Brushes.Transparent;
                             kv.Opacity = 1;
                             kv.Stroke = Brushes.Blue;
@@ -376,12 +381,13 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
-                                utility.UtilityLines[i].Uid = i.ToString() + "UH" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                                utility.UtilityLines[i].Uid = i.ToString() + "LineC" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
                             Label Q = new Label
                             {
+                                Uid = "Q_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1 - 25, 0, 0),
                                 Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
                             };
@@ -391,7 +397,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = 46;
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Uid = "Cold_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Uid = "V2C" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(point.X - 10, point.Y - 23, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
@@ -403,6 +409,7 @@ namespace TC_generator.Model.BuilderObjects
                             Rectangle kv = new Rectangle();
                             kv.Width = 20;
                             kv.Height = 10;
+                            kv.Uid = "kv_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             kv.Fill = Brushes.Transparent;
                             kv.Opacity = 1;
                             kv.Stroke = Brushes.Red;
@@ -420,7 +427,6 @@ namespace TC_generator.Model.BuilderObjects
 
                         if (Tools.CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
                         {
-                            n += 5;
                             Point point1 = new Point();
                             point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
                             point1.Y = HF.Single().Lines[branch.HotStudy].Y1;
@@ -501,11 +507,13 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
+                                utility.UtilityLines[i].Uid = i.ToString() + "LineC" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }
 
                             Label Q = new Label
                             {
+                                Uid = "Q_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1 - 25, 0, 0),
                                 Content = input.Q_HeaterArray[branch.i, branch.j].ToString() + " кВт"
                             };
@@ -515,7 +523,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = 46;
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Uid = "Cold_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Uid = "V3C" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(point.X - 10, point.Y - 23, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
@@ -527,6 +535,7 @@ namespace TC_generator.Model.BuilderObjects
                             Rectangle kv = new Rectangle();
                             kv.Width = 20;
                             kv.Height = 10;
+                            kv.Uid = "kv_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             kv.Fill = Brushes.Transparent;
                             kv.Opacity = 1;
                             kv.Stroke = Brushes.Red;
@@ -625,11 +634,13 @@ namespace TC_generator.Model.BuilderObjects
 
                             for (int i = 0; i < utility.UtilityLines.Length; i++)
                             {
+                                utility.UtilityLines[i].Uid = i.ToString() + "LineH" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                                 Canvasss.Items.Add(utility.UtilityLines[i]);
                             }  
 
                             Label Q = new Label
                             {
+                                Uid = "Q_H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString(),
                                 Margin = new Thickness(utility.UtilityLines[1].X1 - 18, utility.UtilityLines[1].Y1, 0, 0),
                                 Content = input.Q_CoolerArray[branch.i, branch.j].ToString() + " кВт"
                             };
@@ -639,7 +650,7 @@ namespace TC_generator.Model.BuilderObjects
                             rc.Height = 46;
                             rc.Fill = Brushes.DeepPink;
                             rc.Opacity = 0;
-                            rc.Uid = "Hot_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
+                            rc.Uid = "V4H" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             rc.Margin = new Thickness(point.X - 10, point.Y - 23, 0, 0);
                             rc.Stroke = Brushes.Pink;
                             rc.MouseDown += new MouseButtonEventHandler(U_MouseButtonDown);
@@ -651,6 +662,7 @@ namespace TC_generator.Model.BuilderObjects
                             Rectangle kv = new Rectangle();
                             kv.Width = 20;
                             kv.Height = 10;
+                            kv.Uid = "kv_U" + branch.HotNumber.ToString() + branch.ColdNumber.ToString() + branch.HotStudy.ToString() + branch.ColdStudy.ToString();
                             kv.Fill = Brushes.Transparent;
                             kv.Opacity = 1;
                             kv.Stroke = Brushes.Blue;
@@ -711,7 +723,6 @@ namespace TC_generator.Model.BuilderObjects
         private void Line_MouseButtonUp(object sender, MouseButtonEventArgs e)
         {
             IsMoved = false;
-            CurrentPlaceRectangel.Opacity = 0;
 
             CurrentPlaceRectangel = null;
             CurrentBranchLine = null;
@@ -760,116 +771,89 @@ namespace TC_generator.Model.BuilderObjects
 
         /////////////////////////////////////////////////
 
-        //public Rectangle CurLine;
-        //public Line ll;
-        //public Label E_l;
-        //public Label Q_l;
-        //public Label F_l;
-        //public Ellipse E_H;
-        //public Ellipse E_C;
+        public Rectangle UtilityRectangel;
+        public Line UtilityLine_1;
+        public Line UtilityLine_2;
+        public Line UtilityLine_3;
+        public Label UtilityHeatLabel;
+        public Rectangle UtilityDRectange;
 
 
         private void U_MouseButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //if (e.LeftButton == MouseButtonState.Pressed)
-            //{
-            //    IsMoved = true;
-            //    CurLine = (sender as Rectangle);
-            //    string n = CurLine.Name.Substring(2, 4);
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                IsMoved = true;
+                UtilityRectangel = (sender as Rectangle);
 
-            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            //    {
-            //        if (c is Line)
-            //            if ((c as Line).Uid == "Connect" + n)
-            //            {
-            //                ll = (Line)c;
-            //                break;
-            //            }
-            //    }
+                string name = UtilityRectangel.Name;
+                string IdOfElement = name.Substring(3);
+                string UtlityName = name.Substring(0, 3);
 
-            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            //    {
-            //        if (c is Label)
-            //            if ((c as Label).Uid == "E" + n)
-            //            {
-            //                E_l = (Label)c;
-            //                break;
-            //            }
-            //    }
+                switch (UtlityName)
+                {
+                    case "V1C":
+                        FindUtilityObjects(UtlityName, IdOfElement);
+                        break;
 
-            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            //    {
-            //        if (c is Label)
-            //            if ((c as Label).Uid == "Q" + n)
-            //            {
-            //                Q_l = (Label)c;
-            //                break;
-            //            }
-            //    }
+                    case "V1H":
+                        FindUtilityObjects(UtlityName, IdOfElement);
+                        break;
 
-            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            //    {
-            //        if (c is Label)
-            //            if ((c as Label).Uid == "F" + n)
-            //            {
-            //                F_l = (Label)c;
-            //                break;
-            //            }
-            //    }
+                    case "V2C":
+                        FindUtilityObjects(UtlityName, IdOfElement);
+                        break;
 
-            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            //    {
-            //        if (c is Ellipse)
-            //            if ((c as Ellipse).Uid == "ELL_H" + n)
-            //            {
-            //                E_H = (Ellipse)c;
-            //                break;
-            //            }
-            //    }
+                    case "V2H":
+                        FindUtilityObjects(UtlityName, IdOfElement);
+                        break;
 
-            //    foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            //    {
-            //        if (c is Ellipse)
-            //            if ((c as Ellipse).Uid == "ELL_C" + n)
-            //            {
-            //                E_C = (Ellipse)c;
-            //                break;
-            //            }
-            //    }
+                    case "V3H":
+                        FindUtilityObjects(UtlityName, IdOfElement);
+                        break;
 
-            //}
+                    case "V4C":
+                        FindUtilityObjects(UtlityName, IdOfElement);
+                        break;
+                }
+
+            }
         }
 
         private void U_MouseButtonMove(object sender, MouseEventArgs e)
         {
-            //if (IsMoved & e.LeftButton == MouseButtonState.Pressed)
-            //{
-            //    CurLine.Opacity = 0.15;
-            //    double X = e.GetPosition(Canvasss).X;
-            //    CurLine.Margin = new Thickness(X - 10, CurLine.Margin.Top, 0, 0);
-            //    E_l.Margin = new Thickness(X, E_l.Margin.Top, 0, 0);
-            //    Q_l.Margin = new Thickness(X - 18, Q_l.Margin.Top, 0, 0);
-            //    F_l.Margin = new Thickness(X - 18, F_l.Margin.Top, 0, 0);
-            //    E_H.Margin = new Thickness(X - 2.5, E_H.Margin.Top, 0, 0);
-            //    E_C.Margin = new Thickness(X - 2.5, E_C.Margin.Top, 0, 0);
-            //    ll.X1 = X;
-            //    ll.X2 = X;
+            if (IsMoved & e.LeftButton == MouseButtonState.Pressed)
+            {
+                UtilityRectangel.Opacity = 0.15;
+                double X = e.GetPosition(Canvasss).X;
 
-            //}
+                UtilityRectangel.Margin = new Thickness(X - 10, UtilityRectangel.Margin.Top, 0, 0);
+                UtilityHeatLabel.Margin = new Thickness(X - 18, UtilityHeatLabel.Margin.Top, 0, 0);
+                UtilityDRectange.Margin = new Thickness(X - 10, UtilityDRectange.Margin.Top, 0, 0);
+
+                UtilityLine_1.X1 = X;
+                UtilityLine_1.X2 = X;
+
+                UtilityLine_2.X1 = X;
+                UtilityLine_2.X2 = X;
+
+                UtilityLine_3.X1 = X;
+                UtilityLine_3.X2 = X;
+
+            }
         }
 
         private void U_MouseButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //IsMoved = false;
-            //CurLine.Opacity = 0;
-            //CurLine = null;
-            //ll = null;
-            //E_l = null;
-            //Q_l = null;
-            //F_l = null;
-            //E_C = null;
-            //E_H = null;
-        }
+            IsMoved = false;
+
+            UtilityRectangel = null;
+            UtilityLine_1 = null;
+            UtilityLine_2 = null;
+            UtilityLine_3 = null;
+            UtilityHeatLabel = null;
+            UtilityDRectange = null;
+    }
 
         private void U_MouseButtonLeave(object sender, MouseEventArgs e)
         {
@@ -879,6 +863,15 @@ namespace TC_generator.Model.BuilderObjects
         private void U_MouseButtonEnter(object sender, MouseEventArgs e)
         {
             (sender as Rectangle).Opacity = 0.15;
+        }
+
+        private void FindUtilityObjects(string UtlityName, string IdOfElement)
+        {
+            UtilityLine_1 = Tools.FindUidObjectFromItemsControlUI<Line>("1LineC", IdOfElement, Canvasss);
+            UtilityLine_2 = Tools.FindUidObjectFromItemsControlUI<Line>("2LineC", IdOfElement, Canvasss);
+            UtilityLine_3 = Tools.FindUidObjectFromItemsControlUI<Line>("3LineC", IdOfElement, Canvasss);
+            UtilityHeatLabel = Tools.FindUidObjectFromItemsControlUI<Label>("Q_H", IdOfElement, Canvasss);
+            UtilityDRectange = Tools.FindUidObjectFromItemsControlUI<Rectangle>("kv_U", IdOfElement, Canvasss);
         }
 
     }

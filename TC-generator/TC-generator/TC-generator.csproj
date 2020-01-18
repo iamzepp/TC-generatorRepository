@@ -86,7 +86,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="Model\BuilderObjects\ChartBilder.cs" />
     <Compile Include="Model\BuilderObjects\Director.cs" />
+    <Compile Include="Model\BuilderObjects\IChartBilder.cs" />
     <Compile Include="Model\BuilderObjects\Tools.cs" />
     <Compile Include="Model\ConnectionObjects\BranchConnection.cs" />
     <Compile Include="Model\FlowObjects\ColdFlow.cs" />

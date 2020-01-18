@@ -41,6 +41,5 @@ namespace TC_generator.Model.BuilderObjects
                 return false;
         }
 
-
     }
 }
