@@ -100,6 +100,12 @@ namespace TC_generator
         {
             IPrint printer = new ScrinPrinter();
             printer.Print(director);
+            Canvasss.Items.Clear();
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
