@@ -15,6 +15,8 @@ using TC_generator.Model.Objects;
 
 namespace TC_generator.Model.BuilderObjects
 {
+
+
     public class Director
     {
         public InputInfo input;
@@ -24,15 +26,22 @@ namespace TC_generator.Model.BuilderObjects
         public int Y = 120;
         public int XforHF = 190;
 
+        public Rectangle CurrentPlaceRectangel;
+        public Line CurrentBranchLine;
+        public Label CurrentNameOfBranchLabel;
+        public Label CurrentHeatOfBranchLabel;
+        public Label CurrentAreaOfBranchLabel;
+        public Ellipse CurrentHotEllipse;
+        public Ellipse CurrentColdEllipse;
+
+        public Line UC_0;
+        public Line UC_1;
+        public Line UC_2;
+
         public Director(InputInfo input, ItemsControl Canvasss)
         {
             this.input = input;
             this.Canvasss = Canvasss;   
-        }
-
-        public async void StartDrawAsync()
-        {
-            await Task.Run(() => StartDraw());
         }
 
         public void StartDraw()
@@ -58,12 +67,6 @@ namespace TC_generator.Model.BuilderObjects
             Canvasss.Width = 300 * input.StudyCount + 2 * XforHF;
 
             Draw(flows);
-            //DrawParallel(flows);
-        }
-
-        public void DrawParallel(List<EnergyFlowBase> flows)
-        {
-            Parallel.ForEach( flows, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }, DrawP);
         }
 
         public void Draw(List<EnergyFlowBase> flows)
@@ -138,7 +141,7 @@ namespace TC_generator.Model.BuilderObjects
                 {
                     case ConnectType.V1:
 
-                        if(CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
+                        if(Tools.CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
                             point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 60;
@@ -186,7 +189,7 @@ namespace TC_generator.Model.BuilderObjects
                             Canvasss.Items.Add(Q);
                         }
 
-                        if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
+                        if (Tools.CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
                         {
                            
                             Point point = new Point();
@@ -241,7 +244,7 @@ namespace TC_generator.Model.BuilderObjects
                     case ConnectType.V2:
 
 
-                        if (CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
+                        if (Tools.CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
                         {
                             Point point1 = new Point();
                             point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
@@ -313,7 +316,7 @@ namespace TC_generator.Model.BuilderObjects
 
                         }
 
-                        if (CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
+                        if (Tools.CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
                             point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 60;
@@ -363,7 +366,7 @@ namespace TC_generator.Model.BuilderObjects
 
                         }
 
-                        if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
+                        if (Tools.CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
                             point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 60;
@@ -415,7 +418,7 @@ namespace TC_generator.Model.BuilderObjects
 
                     case ConnectType.V3:
 
-                        if (CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
+                        if (Tools.CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
                         {
                             n += 5;
                             Point point1 = new Point();
@@ -488,7 +491,7 @@ namespace TC_generator.Model.BuilderObjects
 
                         }
 
-                        if (CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
+                        if (Tools.CheckQandF(input.F_HeaterArray[branch.i, branch.j], input.Q_HeaterArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
                             point.X = ((CF.Single().Lines[branch.ColdStudy].X1 + CF.Single().Lines[branch.ColdStudy].X2) / 2) - 60;
@@ -539,7 +542,7 @@ namespace TC_generator.Model.BuilderObjects
 
                     case ConnectType.V4:
 
-                        if (CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
+                        if (Tools.CheckQandF(input.F_RecuperatorArray[branch.i, branch.j], input.Q_RecuperatorArray[branch.i, branch.j]))
                         {
                             Point point1 = new Point();
                             point1.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2);
@@ -612,7 +615,7 @@ namespace TC_generator.Model.BuilderObjects
 
                         }
 
-                        if (CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
+                        if (Tools.CheckQandF(input.F_CoolerArray[branch.i, branch.j], input.Q_CoolerArray[branch.i, branch.j]))
                         {
                             Point point = new Point();
                             point.X = ((HF.Single().Lines[branch.HotStudy].X1 + HF.Single().Lines[branch.HotStudy].X2) / 2) + 60;
@@ -665,208 +668,22 @@ namespace TC_generator.Model.BuilderObjects
             }
         }
 
-        public bool CheckQandF( double F, double Q)
-        {
-            if (Q > 0.1 && F > 0.1)
-                return true;
-            else
-                return false;
-        }
-
-        public void DrawP(EnergyFlowBase flow)
-        {
-
-            for (int i = 0; i < flow.Lines.Count; i++)
-            {
-                Canvasss.Items.Add(flow.Lines[i]);
-            }
-
-            for (int i = 0; i < flow.ArrowLines.Length; i++)
-            {
-                Canvasss.Items.Add(flow.ArrowLines[i]);
-            }
-
-            Label Tn_L1 = new Label
-            {
-                Margin = new Thickness(flow.TnPoint.X, flow.TnPoint.Y, 0, 0),
-                Content = flow.Tn.ToString() + " C"
-            };
-
-            Canvasss.Items.Add(Tn_L1);
-
-            Label Tk_L1 = new Label
-            {
-                Margin = new Thickness(flow.TkPoint.X, flow.TkPoint.Y, 0, 0),
-                Content = flow.Tk.ToString() + " C"
-            };
-            Canvasss.Items.Add(Tk_L1);
-
-            for (int i = 0; i < flow.IdTextPoint.Count; i++)
-            {
-                Label p = new Label
-                {
-                    Foreground = Brushes.Firebrick,
-                    Margin = new Thickness(flow.IdTextPoint[i].X, flow.IdTextPoint[i].Y, 0, 0),
-                    Content = i.ToString()
-                };
-
-                Canvasss.Items.Add(p);
-            }
-
-        }
-
-        public  Rectangle CurLine;
-        public Line ll;
-        public Label E_l;
-        public Label Q_l;
-        public Label F_l;
-        public Ellipse E_H;
-        public Ellipse E_C;
-
-        public Line UC_0;
-        public Line UC_1;
-        public Line UC_2;
-
-        public Line UH_0;
-        public Line UH_1;
-        public Line UH_2;
-
-
-
         private void Line_MouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 IsMoved = true;
-                CurLine = (sender as Rectangle);
-                string n = CurLine.Name.Substring(2, 4);
+                CurrentPlaceRectangel = (sender as Rectangle);
 
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Line)
-                        if ((c as Line).Uid == "Connect" + n)
-                        {
-                            ll = (Line)c;
-                            break;
-                        }
-                }
+                string name = CurrentPlaceRectangel.Name;
+                string IdOfElement = name.Substring(2);
 
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Label)
-                        if ((c as Label).Uid == "E" + n)
-                        {
-                            E_l = (Label)c;
-                            break;
-                        }
-                }
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Label)
-                        if ((c as Label).Uid == "Q" + n)
-                        {
-                            Q_l= (Label)c;
-                            break;
-                        }
-                }
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Label)
-                        if ((c as Label).Uid == "F" + n)
-                        {
-                            F_l = (Label)c;
-                            break;
-                        }
-                }
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Ellipse)
-                        if ((c as Ellipse).Uid == "ELL_H" + n)
-                        {
-                            E_H = (Ellipse)c;
-                            break;
-                        }
-                }
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Ellipse)
-                        if ((c as Ellipse).Uid == "ELL_C" + n)
-                        {
-                            E_C = (Ellipse)c;
-                            break;
-                        }
-                }
-
-                /////////////////////////
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Line)
-                        if ((c as Line).Uid == "0UC" + n)
-                        {
-                            UC_0 = (Line)c;
-                            break;
-                        }
-                }
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Line)
-                        if ((c as Line).Uid == "1UC" + n)
-                        {
-                            UC_1 = (Line)c;
-                            break;
-                        }
-                }
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Line)
-                        if ((c as Line).Uid == "2UC" + n)
-                        {
-                            UC_2 = (Line)c;
-                            break;
-                        }
-                }
-
-                /////////////////////////
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Line)
-                        if ((c as Line).Uid == "0HC" + n)
-                        {
-                            UH_0 = (Line)c;
-                            break;
-                        }
-                }
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Line)
-                        if ((c as Line).Uid == "1HC" + n)
-                        {
-                            UH_1 = (Line)c;
-                            break;
-                        }
-                }
-
-                foreach (var c in Canvasss.ItemContainerGenerator.Items)
-                {
-                    if (c is Line)
-                        if ((c as Line).Uid == "2HC" + n)
-                        {
-                            UH_2 = (Line)c;
-                            break;
-                        }
-                }
-
-
-
+                CurrentBranchLine = Tools.FindUidObjectFromItemsControlUI<Line>("Connect", IdOfElement, Canvasss);
+                CurrentNameOfBranchLabel = Tools.FindUidObjectFromItemsControlUI<Label>("E", IdOfElement, Canvasss);
+                CurrentHeatOfBranchLabel = Tools.FindUidObjectFromItemsControlUI<Label>("Q", IdOfElement, Canvasss);
+                CurrentAreaOfBranchLabel = Tools.FindUidObjectFromItemsControlUI<Label>("F", IdOfElement, Canvasss);
+                CurrentHotEllipse = Tools.FindUidObjectFromItemsControlUI<Ellipse>("ELL_H", IdOfElement, Canvasss);
+                CurrentColdEllipse = Tools.FindUidObjectFromItemsControlUI<Ellipse>("ELL_C", IdOfElement, Canvasss);
             }
         }
 
@@ -874,133 +691,71 @@ namespace TC_generator.Model.BuilderObjects
         {
             if (IsMoved & e.LeftButton == MouseButtonState.Pressed)
             {
-                CurLine.Opacity = 0.15;
+                CurrentPlaceRectangel.Opacity = 0.15;
+
                 double X = e.GetPosition(Canvasss).X;
-                CurLine.Margin = new Thickness(X - 10, CurLine.Margin.Top, 0, 0);
-                E_l.Margin = new Thickness(X, E_l.Margin.Top, 0, 0);
-                Q_l.Margin = new Thickness(X - 18, Q_l.Margin.Top, 0, 0);
-                F_l.Margin = new Thickness(X - 18, F_l.Margin.Top, 0, 0);
-                E_H.Margin = new Thickness(X-2.5, E_H.Margin.Top, 0, 0);
-                E_C.Margin = new Thickness(X-2.5, E_C.Margin.Top, 0, 0);
 
-                if(UC_0 != null)
-                {
-                    UC_0.X1 = X;
-                    UC_1.X1 = X;
-                    UC_2.X1 = X;
+                CurrentPlaceRectangel.Margin = new Thickness(X - 10, CurrentPlaceRectangel.Margin.Top, 0, 0);
+                CurrentNameOfBranchLabel.Margin = new Thickness(X, CurrentNameOfBranchLabel.Margin.Top, 0, 0);
+                CurrentHeatOfBranchLabel.Margin = new Thickness(X - 18, CurrentHeatOfBranchLabel.Margin.Top, 0, 0);
+                CurrentAreaOfBranchLabel.Margin = new Thickness(X - 18, CurrentAreaOfBranchLabel.Margin.Top, 0, 0);
 
-                    UC_0.X2 = X;
-                    UC_1.X2 = X;
-                    UC_2.X2 = X;
-                }
+                CurrentHotEllipse.Margin = new Thickness(X - 2.5, CurrentHotEllipse.Margin.Top, 0, 0);
+                CurrentColdEllipse.Margin = new Thickness(X - 2.5, CurrentColdEllipse.Margin.Top, 0, 0);
 
-                if (UH_0 != null)
-                {
-                    UH_0.X1 = X;
-                    UH_1.X1 = X;
-                    UH_2.X1 = X;
-
-                    UH_0.X2 = X;
-                    UH_1.X2 = X;
-                    UH_2.X2 = X;
-                }
-
-                ll.X1 = X;
-                ll.X2 = X;
-
+                CurrentBranchLine.X1 = X;
+                CurrentBranchLine.X2 = X;
             }
         }
 
         private void Line_MouseButtonUp(object sender, MouseButtonEventArgs e)
         {
             IsMoved = false;
-            CurLine.Opacity = 0;
-            CurLine = null;
-            ll = null;
-            E_l = null;
-            Q_l = null;
-            F_l = null;
-            E_C = null;
-            E_H = null;
+            CurrentPlaceRectangel.Opacity = 0;
+
+            CurrentPlaceRectangel = null;
+            CurrentBranchLine = null;
+            CurrentNameOfBranchLabel = null;
+            CurrentHeatOfBranchLabel = null;
+            CurrentAreaOfBranchLabel = null;
+            CurrentHotEllipse = null;
+            CurrentHotEllipse = null;
         }
 
         private void Line_MouseButtonLeave(object sender, MouseEventArgs e)
         {
-            Rectangle rc = (sender as Rectangle);
-            rc.Opacity = 0;
+            Rectangle rectangle = (sender as Rectangle);
+            rectangle.Opacity = 0;
 
-            Rectangle H = default;
-            Rectangle C = default;
+            string name = rectangle.Name;
+            string IdOfElement = name.Substring(2);
 
-            string n = rc.Name.Substring(2, 4);
+            Rectangle hot_rectangel = Tools.FindUidObjectFromItemsControlUI<Rectangle>("Hot_U", IdOfElement, Canvasss);
+            Rectangle cold_rectangel = Tools.FindUidObjectFromItemsControlUI<Rectangle>("Cold_U", IdOfElement, Canvasss);
 
-            /////////////////////////
+            if (cold_rectangel != null)
+               cold_rectangel.Opacity = 0;
 
-            foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            {
-                if (c is Rectangle)
-                    if ((c as Rectangle).Uid == "Hot_U" + n)
-                    {
-                        H = (Rectangle)c;
-                        break;
-                    }
-            }
-
-            foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            {
-                if (c is Rectangle)
-                    if ((c as Rectangle).Uid == "Cold_U" + n)
-                    {
-                        C = (Rectangle)c;
-                        break;
-                    }
-            }
-
-            if (C != null)
-                C.Opacity = 0;
-
-            if (H != null)
-                H.Opacity = 0;
-
+            if (hot_rectangel != null)
+               hot_rectangel.Opacity = 0;
         }
 
         private void Line_MouseButtonEnter(object sender, MouseEventArgs e)
         {
-            Rectangle rc = (sender as Rectangle);
-            rc.Opacity = 0.15;
+            Rectangle rectangle = (sender as Rectangle);
+            rectangle.Opacity = 0.15;
 
-            Rectangle H = default;
-            Rectangle C = default;
+            string name = rectangle.Name;
+            string IdOfElement = name.Substring(2);
 
-            string n = rc.Name.Substring(2, 4);
+            Rectangle hot_rectangel = Tools.FindUidObjectFromItemsControlUI<Rectangle>("Hot_U", IdOfElement, Canvasss);
+            Rectangle cold_rectangel = Tools.FindUidObjectFromItemsControlUI<Rectangle>("Cold_U", IdOfElement, Canvasss);
 
-            /////////////////////////
+            if (cold_rectangel != null)
+                cold_rectangel.Opacity = 0.15;
 
-            foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            {
-                if (c is Rectangle)
-                    if ((c as Rectangle).Uid == "Hot_U" + n)
-                    {
-                        H = (Rectangle)c;
-                        break;
-                    }
-            }
-
-            foreach (var c in Canvasss.ItemContainerGenerator.Items)
-            {
-                if (c is Rectangle)
-                    if ((c as Rectangle).Uid == "Cold_U" + n)
-                    {
-                        C = (Rectangle)c;
-                        break;
-                    }
-            }
-
-            if (C != null)
-                C.Opacity = 0.15;
-
-            if (H != null)
-                H.Opacity = 0.15;
+            if (hot_rectangel != null)
+                hot_rectangel.Opacity = 0.15;
         }
 
         /////////////////////////////////////////////////
