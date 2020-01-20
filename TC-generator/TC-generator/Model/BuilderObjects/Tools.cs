@@ -16,12 +16,16 @@ namespace TC_generator.Model.BuilderObjects
         public static double MinF = 0.01;
 
         //Еденицы измерения
-        public static string UnitOfQ = "кВт";
-        public static string UnitOfF = "м2";
+        public static string UnitOfQ = "kW";
+        public static string UnitOfF = "m2";
+
+        public static int Round = 2;
+
+        public static double RectangelBranchWidth = 20;
 
         //Цвета
-        public static SolidColorBrush Color = Brushes.Red;
- 
+        public static SolidColorBrush RectangelBranchColor = Brushes.YellowGreen;
+
 
 
         //Поиск элемента по его имени в ItemsControl
@@ -29,9 +33,8 @@ namespace TC_generator.Model.BuilderObjects
         {
             T obj = default;
 
-            foreach (var c in canvas.ItemContainerGenerator.Items)
+            foreach (var c in canvas.ItemContainerGenerator.Items.OfType<T>())
             {
-                if (c is T)
                     if ((c as T).Uid == name + Id)
                     {
                         obj = (T)c;

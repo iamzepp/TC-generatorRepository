@@ -29,7 +29,7 @@
                 <MenuItem Click="MenuItem_Click_3" Header="Сохранить в PDF" />
                 <MenuItem Click="MenuItem_Click_1" Header="Сделать скриншот" />
                 <Separator />
-                <MenuItem Header="Выйти" />
+                <MenuItem Header="Выйти" Click="MenuItem_Click_4" />
             </MenuItem>
             <MenuItem Header="Вид">
                 <MenuItem Header="Скрыть стадии" Click="MenuItem_Click" />

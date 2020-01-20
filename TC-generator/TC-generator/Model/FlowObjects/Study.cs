@@ -25,9 +25,7 @@ namespace TC_generator.Model.FlowObjects
         public Study(Point BeginPoint, FlowType type)
         {
             this.BeginPoint = BeginPoint;
-            this.type = type;
-
-          
+            this.type = type; 
         }
 
         private Point CalculateEndPoint()

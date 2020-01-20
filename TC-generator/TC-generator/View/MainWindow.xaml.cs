@@ -39,7 +39,7 @@ namespace TC_generator
         public void Start()
         {
             //Director director = new Director((new ManagerInput(new DefaultInput())).GetInput(), this.Canvasss);
-            director = new Director((new ManagerInput(new ExcelIntut())).GetInput(), Canvasss);
+            director = new Director((new ManagerInput(new ExcelIntut())).GetInput(), Canvasss, null);
             director.StartDraw();
         }
 
@@ -100,12 +100,16 @@ namespace TC_generator
         {
             IPrint printer = new ScrinPrinter();
             printer.Print(director);
-            Canvasss.Items.Clear();
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
+            
+        }
 
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TC_generator.Printer
             PrintDialog dialog = new PrintDialog();
             if (dialog.ShowDialog() == true)
             {
-                dialog.PrintVisual(obj as Canvas, "Температурная схемы");
+                dialog.PrintVisual(obj as ItemsControl, "Temperature sheme");
             }
         }
     }
