@@ -25,14 +25,14 @@
 
         <Menu Grid.Row="0" FontSize="15">
             <MenuItem Header="Файл">
-                <MenuItem Header="Открыть" Click="MenuItem_Click_2" />
+                <MenuItem Click="MenuItem_Click_2" Header="Открыть" />
                 <MenuItem Click="MenuItem_Click_3" Header="Сохранить в PDF" />
                 <MenuItem Click="MenuItem_Click_1" Header="Сделать скриншот" />
                 <Separator />
-                <MenuItem Header="Выйти" Click="MenuItem_Click_4" />
+                <MenuItem Click="MenuItem_Click_4" Header="Выйти" />
             </MenuItem>
             <MenuItem Header="Вид">
-                <MenuItem Header="Скрыть стадии" Click="MenuItem_Click" />
+                <MenuItem Click="MenuItem_Click" Header="Скрыть стадии" />
             </MenuItem>
             <MenuItem Header="Инструменты" />
             <MenuItem Header="Справка" />

@@ -29,18 +29,21 @@ namespace TC_generator
     {
         bool flag = true;
         Director director;
+        IChartBilder bilder;
 
         public MainWindow()
         {
             InitializeComponent();
+
             Start();
         }
 
         public void Start()
         {
-            //Director director = new Director((new ManagerInput(new DefaultInput())).GetInput(), this.Canvasss);
-            director = new Director((new ManagerInput(new ExcelIntut())).GetInput(), Canvasss, null);
-            director.StartDraw();
+
+            bilder = new ChartBilder((new ManagerInput(new ExcelIntut())).GetInput(), Canvasss);
+            director = new Director(bilder);
+            director.Draw();
         }
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
@@ -99,8 +102,9 @@ namespace TC_generator
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             IPrint printer = new ScrinPrinter();
-            printer.Print(director);
+            printer.Print(Canvasss);
         }
+       
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
