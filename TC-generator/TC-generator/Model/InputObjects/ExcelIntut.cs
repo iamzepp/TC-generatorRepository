@@ -15,10 +15,10 @@ namespace TC_generator.Model.InputObjects
         //Книга Excel
         XSSFWorkbook xssfwb;
 
-        public InputInfo GetInfo()
+        public InputInfo GetInfo(string name)
         {
             //Открываем файл
-            using (FileStream file = new FileStream("csharp.XLSX", FileMode.Open, FileAccess.Read))
+            using (FileStream file = new FileStream(name, FileMode.Open, FileAccess.Read))
             {
                 xssfwb = new XSSFWorkbook(file);
             }

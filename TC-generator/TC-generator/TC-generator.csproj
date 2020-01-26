@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Files\img\logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -96,13 +99,14 @@
     <Compile Include="Model\FlowObjects\HotFlow.cs" />
     <Compile Include="Model\FlowObjects\Study.cs" />
     <Compile Include="Model\ConnectionObjects\UtilityConnection.cs" />
-    <Compile Include="Model\InputObjects\DefaultInput.cs" />
     <Compile Include="Model\InputObjects\ExcelIntut.cs" />
     <Compile Include="Model\InputObjects\IInput.cs" />
     <Compile Include="Model\InputObjects\InputInfo.cs" />
     <Compile Include="Model\InputObjects\JsonInput.cs" />
-    <Compile Include="Model\InputObjects\ManagerInput.cs" />
     <Compile Include="Model\InputObjects\XmlInput.cs" />
+    <Compile Include="Model\SaveObjects\ISave.cs" />
+    <Compile Include="Model\SaveObjects\SaveInfo.cs" />
+    <Compile Include="Model\SaveObjects\SaveXML.cs" />
     <Compile Include="Printer\CanvasPrinter.cs" />
     <Compile Include="Printer\IPrint.cs" />
     <Compile Include="Printer\ScrinPrinter.cs" />
@@ -180,7 +184,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="img\logo.ico">
+    <Resource Include="Files\img\logo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

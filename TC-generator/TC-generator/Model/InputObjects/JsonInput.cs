@@ -10,7 +10,7 @@ namespace TC_generator.Model.InputObjects
 {
     public class JsonInput : IInput
     {
-        public InputInfo GetInfo()
+        public InputInfo GetInfo(string name)
         {
             string json = File.ReadAllText("document.json");
 

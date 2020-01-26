@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,9 +43,9 @@ namespace TC_generator
         public void Start()
         {
 
-            bilder = new ChartBilder((new ManagerInput(new ExcelIntut())).GetInput(), Canvasss);
-            director = new Director(bilder);
-            director.Draw();
+            //bilder = new ChartBilder((new ManagerInput(new ExcelIntut())).GetInput(), Canvasss);
+            //director = new Director(bilder);
+            //director.Draw();
         }
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
@@ -114,6 +116,18 @@ namespace TC_generator
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                bilder = new ChartBilder((new ExcelIntut()).GetInfo(openFileDialog.FileName), Canvasss);
+                director = new Director(bilder);
+                director.Draw();
+            }
         }
     }
 }

@@ -4,10 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TC_generator.Model.InputObjects
+namespace TC_generator.Model.SaveObjects
 {
-    public interface IInput
+    public class SaveInfo
     {
-        InputInfo GetInfo(string name);
+
+        public SaveInfo()
+        {
+
+        }
+
+
+
     }
 }

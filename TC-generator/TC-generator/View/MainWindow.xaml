@@ -8,7 +8,7 @@
     Title="TC-generator"
     Width="800"
     Height="450"
-    Icon="/img/logo.ico"
+    Icon="/Files/img/logo.ico"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
@@ -19,23 +19,29 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" FontSize="15">
+        <Menu
+            Grid.Row="0"
+            Background="#252526"
+            FontSize="18"
+            Foreground="White">
             <MenuItem Header="Файл">
-                <MenuItem Click="MenuItem_Click_2" Header="Открыть" />
+                <MenuItem Click="MenuItem_Click_2" Header="Открыть проект" />
+                <MenuItem Click="MenuItem_Click_5" Header="Сгенирировать из XLSX" />
+                <Separator />
                 <MenuItem Click="MenuItem_Click_3" Header="Сохранить в PDF" />
                 <MenuItem Click="MenuItem_Click_1" Header="Сделать скриншот" />
                 <Separator />
                 <MenuItem Click="MenuItem_Click_4" Header="Выйти" />
             </MenuItem>
-            <MenuItem Header="Вид">
+            <MenuItem Background="#252526" Header="Вид">
                 <MenuItem Click="MenuItem_Click" Header="Скрыть стадии" />
             </MenuItem>
-            <MenuItem Header="Инструменты" />
-            <MenuItem Header="Справка" />
+            <MenuItem Background="#252526" Header="Инструменты" />
+            <MenuItem Background="#252526" Header="Справка" />
 
         </Menu>
 

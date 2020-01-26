@@ -8,7 +8,7 @@ namespace TC_generator.Model.InputObjects
 {
     public class XmlInput : IInput
     {
-        public InputInfo GetInfo()
+        public InputInfo GetInfo(string name)
         {
             throw new NotImplementedException();
         }

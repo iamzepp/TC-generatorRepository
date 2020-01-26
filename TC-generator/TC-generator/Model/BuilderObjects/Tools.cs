@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace TC_generator.Model.BuilderObjects
 {
@@ -19,14 +20,12 @@ namespace TC_generator.Model.BuilderObjects
         public static string UnitOfQ = "kW";
         public static string UnitOfF = "m2";
 
-        public static int Round = 2;
+        public static int Round = 0;
 
         public static double RectangelBranchWidth = 20;
 
         //Цвета
         public static SolidColorBrush RectangelBranchColor = Brushes.YellowGreen;
-
-
 
         //Поиск элемента по его имени в ItemsControl
         public static T FindUidObjectFromItemsControlUI<T>(string name, string Id, ItemsControl canvas) where T : UIElement
@@ -44,6 +43,7 @@ namespace TC_generator.Model.BuilderObjects
 
             return obj;
         }
+
 
         //Отсечение велечин, неимеющих физического смысла
         public static bool CheckQandF(double F, double Q)
